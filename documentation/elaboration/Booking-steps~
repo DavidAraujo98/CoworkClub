@@ -1,0 +1,23 @@
+User
+
+1. Search for a location, date and size of the team
+3. If needed, the user can now improve results by applying filters.
+5. Selects an entry
+7. Selects a specific date and hour to attend, the type of office or specifications
+8. Selects checkout
+11. Performs payment
+
+CoworkClub
+
+2. Provide a list that meets the criteria
+4.a If filters wher applyed, returns to 2.
+6. Retrieve and display all the information about the selected space.
+9. Make specified date and hour non-available for the rest of user in order to prevent duplications of booking.
+10. Retrieve payment information
+
+Space Provider
+14. 
+
+Payment Service Provider (Bank).
+12. Receives payment
+13. Sends payment to CoworkClub
