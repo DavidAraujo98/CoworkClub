@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-05-18T18:55:17.374Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36" etag="0lB79iGdg6A12vjshSez" version="18.0.7" type="github" pages="3">
+<mxfile host="app.diagrams.net" modified="2022-05-18T22:55:19.878Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36" etag="4PEMNmtw3oY7pYBLNWsf" version="18.0.7" type="github" pages="3">
   <diagram id="prtHgNgQTEPvFCAcTncT" name="Booking">
     <mxGraphModel dx="693" dy="935" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -537,7 +537,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="QN3FZXPzjIui03fiu6KZ" name="Class Diagram">
-    <mxGraphModel dx="1020" dy="394" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="554" dy="748" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="wxooSHnF6QyXdMB0OCFC-0" />
         <mxCell id="wxooSHnF6QyXdMB0OCFC-1" parent="wxooSHnF6QyXdMB0OCFC-0" />
