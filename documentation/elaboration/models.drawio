@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-05-19T18:08:55.369Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36" etag="LfS9aMAP9NtLi-mRavKR" version="18.0.7" type="github" pages="4">
+<mxfile host="app.diagrams.net" modified="2022-05-19T18:09:03.649Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36" etag="Xwx0SvNrsbcmN94DrOUF" version="18.0.7" type="github" pages="4">
   <diagram id="prtHgNgQTEPvFCAcTncT" name="Booking">
     <mxGraphModel dx="606" dy="748" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -655,7 +655,7 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="HerWaRR4fosUu1pSUeQV" name="Use Case 1">
+  <diagram id="HerWaRR4fosUu1pSUeQV" name="Use Case">
     <mxGraphModel dx="932" dy="1151" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
