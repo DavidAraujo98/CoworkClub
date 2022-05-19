@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-05-19T18:09:03.649Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36" etag="Xwx0SvNrsbcmN94DrOUF" version="18.0.7" type="github" pages="4">
+<mxfile host="app.diagrams.net" modified="2022-05-19T18:17:37.944Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36" etag="EBw5ngBThMQ6zbs7nG4t" version="18.0.7" type="github" pages="4">
   <diagram id="prtHgNgQTEPvFCAcTncT" name="Booking">
     <mxGraphModel dx="606" dy="748" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -876,7 +876,7 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="si8uyoqPotG8R0U7-kR5-26" value="User" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=14;fontColor=#E01B84;strokeColor=#283592;strokeWidth=2;fillColor=#C0C8FF;" vertex="1" parent="1">
+        <mxCell id="si8uyoqPotG8R0U7-kR5-26" value="Space&lt;br&gt;Provider" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fontSize=14;fontColor=#E01B84;strokeColor=#283592;strokeWidth=2;fillColor=#C0C8FF;" vertex="1" parent="1">
           <mxGeometry x="730" y="550" width="40" height="70" as="geometry" />
         </mxCell>
         <mxCell id="0Z-lsKHnC-HnBV5NZcCl-2" value="CoworkClub" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#E01B84;fontStyle=1;fontSize=20;" vertex="1" parent="1">
