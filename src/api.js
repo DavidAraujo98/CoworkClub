@@ -3,9 +3,15 @@ const app = express();
 const port = 5000;
 
 app.get("/", (req, res) => {
-    res.send("Hello World!");
+    res.send("Welcome to CoworkClub");
 });
 
-app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`);
+app.get("/spaces", (req, res) => {
+    res.send({ message: ("Spaces in %s", req.local) });
 });
+
+app.get("/spaces/")
+
+app.listen(3000, () => {
+    console.log("Listening in")
+})
