@@ -71,6 +71,52 @@ app.get("/spaces/:name", (req, res) => {
     res.send(response);
 });
 
+app.get("/profile/:name", (req, res) => {
+    /*  Route path
+    
+       /profile/johndoe
+    
+       :name        -> Each user has a unique name id to retrieve info from databases
+        
+        This will be fetch every time a profile's page is opened.    
+    */
+    var name = req.params.name;
+    /* 
+        Retrieving matches from database with routing parameters...
+    */
+    var response = {
+        id: "johndoe",
+        name: "John Doe",
+        email: "john_doe@email.com",
+        password: "",
+        bookings: [
+            {
+                id: "123",
+                space_id: "WorkSmart",
+                checkin: "22Jun2021-09:00",
+                checkout: "22Jun2021-17:00",
+                type: "hotdesk",
+                price: "35",
+                amenities: [],
+            },
+            {
+                id: "124",
+                space_id: "Worker",
+                checkin: "13Mar2021-09:00",
+                checkout: "15Mar2021-16:00",
+                type: "office",
+                price: "100",
+                amenities: [
+                    "coffee",
+                    "zoom",
+                    "snack",
+                ],
+            },
+        ],
+    };
+    res.send(response);
+});
+
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
 });
