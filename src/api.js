@@ -20,6 +20,9 @@ app.get("/spaces", (req, res) => {
             id: "AveiroHub",
             name: "Aveiro Hub",
             rating: "4.5",
+            parking: true,
+            location:
+                "Rua 25 de Abril, nº2 , Aveiro, 3810-111 Aveiro, Portugal",
             description:
                 "Premium cowork office in Aveiro (Portuguese Venice).AveiroHub exists in order to change the way people feel about their working week.",
             price: "30",
@@ -27,7 +30,10 @@ app.get("/spaces", (req, res) => {
         {
             id: "WorkSmart",
             name: "Work Smart",
+            parking: false,
             rating: "4",
+            location:
+                "Rua Sargento Mor, nº32 3ºD, Ilhavo, 3910-456 Ilhavo, Portugal",
             description:
                 "In Ocupa Cowork Aveiro you can get more than just a place to work... you get a community, you get free coffee. Place near the Aveiro river",
             price: "27",
@@ -36,6 +42,8 @@ app.get("/spaces", (req, res) => {
             id: "OcupaAveiro",
             name: "Ocupa Aveiro",
             rating: "4.5",
+            parking: false,
+            location: "Rua da Igrega, nº60 , Anadia, 3780-161 Anadia, Portugal",
             description:
                 "In Ocupa Cowork Aveiro you can get more than just a place to work... you get a community, you get free coffee. Place near the Aveiro river",
             price: "20",
@@ -44,6 +52,9 @@ app.get("/spaces", (req, res) => {
             id: "BusinessCenter",
             name: "Business Center",
             rating: "4.2",
+            parking: true,
+            location:
+                "Avenida de Maio, nº23, Aveiro, 3910-456 Aveiro, Portugal",
             description:
                 "In Ocupa Cowork Aveiro you can get more than just a place to work... you get a community, you get free coffee. Place near the Aveiro river",
             price: "25",
@@ -52,6 +63,9 @@ app.get("/spaces", (req, res) => {
             id: "ClubWork",
             name: "Club Work",
             rating: "3.9",
+            parking: false,
+            location:
+                "Avenida de Janeiro, nº23, Aveiro, 3910-456 Aveiro, Portugal",
             description:
                 "In Ocupa Cowork Aveiro you can get more than just a place to work... you get a community, you get free coffee. Place near the Aveiro river",
             price: "17",
@@ -116,11 +130,7 @@ app.get("/spaces/:name", (req, res) => {
     res.send(response);
 });
 
-app.post("/book", (req, res) => {
-    
-})
-
-app.get("/book/:name", (req, res) => {
+app.post("/book/:name", (req, res) => {
     
 });
 

@@ -116,11 +116,12 @@
           <div class="space-amenities">
             <h2 class="space-text32">Amenities</h2>
             <div class="space-container5">
-              <span class="space-text33"><span>Free coffee</span></span>
-              <span class="space-text35"><span>Heating</span></span>
-              <span class="space-text37"><span>High Speed Wifi</span></span>
-              <span class="space-text39"><span>High Speed Wifi</span></span>
-              <span class="space-text41"><span>Kitchen</span></span>
+              <span
+                class="space-text33"
+                v-for="item in amenities"
+                :key="item"
+                >{{ item }}</span
+              >
             </div>
           </div>
         </div>
@@ -148,9 +149,9 @@
             <div class="space-office-type">
               <label class="space-text48"><span>Office type</span></label>
               <select class="space-select" v-model="office">
-                <option value="Hot Desk" selected>Hot Desk</option>
-                <option value="Private Office">Private Office</option>
-                <option value="Metting Room">Metting Room</option>
+                <option value="hotdesk" selected>Hot Desk</option>
+                <option value="privoffice">Private Office</option>
+                <option value="meeting">Metting Room</option>
               </select>
             </div>
             <div class="space-team-size">
@@ -162,7 +163,9 @@
                 v-model="teamsize"
               />
             </div>
-            <router-link to="/book">
+            <router-link
+              :to="`book/${id}?name=${name}&checkin=${checkin}&checkout=${checkout}&office=${office}&teamsize=${teamsize}`"
+            >
               <primary-blue-button
                 button="Book Now"
                 rootClassName="primary-blue-button-root-class-name1"
@@ -192,6 +195,7 @@ export default {
 
   data() {
     return {
+      id: "",
       name: "",
       rating: "",
       nReview: "",
@@ -214,6 +218,7 @@ export default {
     )
       .then((res) => res.json())
       .then((data) => {
+        this.id = window.location.pathname.split("/").pop();
         this.name = data.name;
         this.rating = data.rating;
         this.nReview = data.nReview;

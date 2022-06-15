@@ -16,8 +16,8 @@ export default new Router({
     routes: [
         {
             name: "Book",
-            path: "/book",
-            component: Book,
+            path: "/spaces/book/:space",
+            component: Book,            
         },
         {
             name: "Spaces",

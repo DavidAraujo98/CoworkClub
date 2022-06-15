@@ -17,7 +17,14 @@
       <div class="spaces-container2">
         <div v-for="item in space_list" :key="item.id">
           <space-card
-            v-if="item.price >= min_price && item.price <= max_price"
+            v-if="
+              item.price >= min_price &&
+              item.price <= max_price &&
+              ((parking && item.parking) || !parking) &&
+              (search == undefined ||
+                item.name.includes(search) ||
+                item.location.includes(search))
+            "
             :name="item.name"
             :id="item.id"
             :price="`${item.price}€/day`"
@@ -52,6 +59,7 @@ export default {
   data() {
     return {
       space_list: [],
+      search: "",
       min_price: 0,
       max_price: 9999999,
       parking: false,
@@ -87,6 +95,7 @@ export default {
   },
 
   beforeMount() {
+    this.search = new URLSearchParams(window.location.search).get("search");
     fetch("http://localhost:3000/spaces" + window.location.search)
       .then((res) => res.json())
       .then((data) => (this.space_list = data));

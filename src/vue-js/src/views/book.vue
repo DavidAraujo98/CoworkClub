@@ -1,6 +1,8 @@
 <template>
   <div class="book-container">
-    <header-logged rootClassName="header-logged-root-class-name2"></header-logged>
+    <header-logged
+      rootClassName="header-logged-root-class-name2"
+    ></header-logged>
     <div class="book-hero">
       <div class="book-container01">
         <div class="book-container02">
@@ -15,7 +17,7 @@
                 Booking at
                 <span v-html="raw7qs3"></span>
               </span>
-              <span class="book-text02">Aveiro Hub</span>
+              <span class="book-text02">{{ name }}</span>
             </h1>
           </div>
           <div class="book-container04">
@@ -27,15 +29,20 @@
                 <h3 class="book-text04">
                   <span class="book-text05">Dates</span>
                 </h3>
-                <span>Jul 2 - 5</span>
+                <span>Checkin at {{ checkin }}</span>
+                <span>Checkout at {{ checkout }}</span>
               </div>
               <div class="book-container07">
-                <h3 class="book-text07"><span class="book-text08">Team</span></h3>
-                <span><span>1 member</span></span>
+                <h3 class="book-text07">
+                  <span class="book-text08">Team</span>
+                </h3>
+                <span
+                  ><span>{{ teamsize }} member</span></span
+                >
               </div>
               <div class="book-container08">
                 <h3 class="book-text11"><span>Office type</span></h3>
-                <span><span>Hot Desk</span></span>
+                <span>{{ office }}</span>
               </div>
             </div>
           </div>
@@ -45,7 +52,7 @@
             </h2>
             <div class="book-container10">
               <div class="book-container11">
-                <span class="book-text16">50 EUR</span>
+                <span class="book-text16">{{ price }} EUR</span>
                 <select class="book-select">
                   <option value="Option 1">Google Pay</option>
                   <option value="Option 2">Apple Pay</option>
@@ -66,7 +73,7 @@
                 ></path>
               </svg>
               <span class="book-text18">
-                Your reservation won’t be confirmed until the Host accepts your
+                Your reservation won't be confirmed until the Host accepts your
                 request (within 24 hours).
               </span>
             </div>
@@ -87,11 +94,11 @@
 </template>
 
 <script>
-import HeaderLogged from '../components/header-logged'
-import PrimaryPinkButton from '../components/primary-pink-button'
+import HeaderLogged from "../components/header-logged";
+import PrimaryPinkButton from "../components/primary-pink-button";
 
 export default {
-  name: 'Book',
+  name: "Book",
   components: {
     HeaderLogged,
     PrimaryPinkButton,
@@ -99,20 +106,39 @@ export default {
 
   data() {
     return {
-      raw7qs3: ' ',
-    }
+      id: "",
+      name: "",
+      checkin: "",
+      checkout: "",
+      office: "",
+      teamsize: "",
+      pricetable: [],
+      price: "",
+      raw7qs3: " ",
+    };
+  },
+
+  beforeMount() {
+    const x = new URLSearchParams(window.location.search);
+    this.id = window.location.pathname.split("/").pop();
+    this.name = x.get("name");
+    this.checkin = x.get("checkin");
+    this.checkout = x.get("checkout");
+    this.office = x.get("office");
+    this.name = x.get("name");
+    this.teamsize = x.get("teamsize");
   },
 
   metaInfo: {
-    title: 'Book - CoworkClub',
+    title: "Book - CoworkClub",
     meta: [
       {
-        property: 'og:title',
-        content: 'Book - CoworkClub',
+        property: "og:title",
+        content: "Book - CoworkClub",
       },
     ],
   },
-}
+};
 </script>
 
 <style scoped>
@@ -343,7 +369,7 @@ export default {
   object-position: right;
   border-bottom-left-radius: 10rem;
 }
-@media(max-width: 991px) {
+@media (max-width: 991px) {
   .book-hero {
     padding-left: var(--dl-space-space-tripleunit);
     padding-right: var(--dl-space-space-tripleunit);
@@ -355,7 +381,7 @@ export default {
     width: 60%;
   }
 }
-@media(max-width: 767px) {
+@media (max-width: 767px) {
   .book-container02 {
     width: 100%;
   }
@@ -363,7 +389,7 @@ export default {
     display: none;
   }
 }
-@media(max-width: 479px) {
+@media (max-width: 479px) {
   .book-container02 {
     width: 100%;
   }
