@@ -1,6 +1,8 @@
 <template>
   <div class="space-container">
-    <header-logged rootClassName="header-logged-root-class-name1"></header-logged>
+    <header-logged
+      rootClassName="header-logged-root-class-name1"
+    ></header-logged>
     <div class="space-gallery">
       <div class="space-row">
         <img
@@ -37,15 +39,17 @@
         <div class="space-left">
           <div class="space-heading">
             <div class="space-container1">
-              <h1 class="space-text headingOne">Aveiro Hub</h1>
+              <h1 class="space-text headingOne">{{ name }}</h1>
               <div class="space-container2">
-                <h1 class="space-text01 headingOne">4.5 / 5</h1>
-                <span class="space-text02"><span>743 reviews</span></span>
+                <h1 class="space-text01 headingOne">{{ rating }} / 5</h1>
+                <span class="space-text02"
+                  ><span>{{ nReview }} reviews</span></span
+                >
               </div>
             </div>
             <div class="space-container3">
               <h2 class="space-text04">
-                Rua 25 de Abril, nº2 , Aveiro, 3810-111 Aveiro, Portugal
+                {{ location }}
               </h2>
               <div class="space-container4">
                 <svg viewBox="0 0 1024 1024" class="space-icon">
@@ -60,13 +64,7 @@
           <div class="space-description">
             <h2 class="space-text07">Description</h2>
             <span class="space-text08">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-              ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-              aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-              pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-              culpa qui officia deserunt mollit anim id est laborum.
+              {{ description }}
             </span>
           </div>
           <div class="space-access-hours">
@@ -74,15 +72,15 @@
             <div class="space-hours">
               <div class="space-cells">
                 <span class="space-text10">Monday - Friday</span>
-                <span class="space-text11">09:00 am - 10:00 pm</span>
+                <span class="space-text11">{{ accessHours[0] }}</span>
               </div>
               <div class="space-cells1">
                 <span class="space-text12"><span>Saturday</span></span>
-                <span class="space-text14">10:00 am - 08:00 pm</span>
+                <span class="space-text14">{{ accessHours[1] }}</span>
               </div>
               <div class="space-cells2">
                 <span class="space-text15"><span>Sunday</span></span>
-                <span class="space-text17">01:00 am - 08:00 pm</span>
+                <span class="space-text17">{{ accessHours[2] }}</span>
               </div>
             </div>
           </div>
@@ -102,11 +100,15 @@
                   <span class="space-text26">Price</span>
                   <span class="space-text27">Access Hours</span>
                 </div>
-                <div class="space-row-1">
-                  <span class="space-text28">1</span>
-                  <span class="space-text29">1 day</span>
-                  <span class="space-text30">EUR 15</span>
-                  <span class="space-text31">8</span>
+                <div
+                  class="space-row-1"
+                  v-for="item in priceTable[0].list"
+                  :key="item.id"
+                >
+                  <span class="space-text28">{{ item.people }}</span>
+                  <span class="space-text29">{{ item.duration }} day</span>
+                  <span class="space-text30">EUR {{ item.price }}</span>
+                  <span class="space-text31">{{ item.hours }}</span>
                 </div>
               </div>
             </div>
@@ -131,6 +133,7 @@
                 type="datetime-local"
                 placeholder="placeholder"
                 class="space-textinput input"
+                v-model="checkin"
               />
             </div>
             <div class="space-checkout">
@@ -139,14 +142,15 @@
                 type="datetime-local"
                 placeholder="placeholder"
                 class="space-textinput1 input"
+                v-model="checkout"
               />
             </div>
             <div class="space-office-type">
               <label class="space-text48"><span>Office type</span></label>
-              <select class="space-select">
-                <option value="Option 1">Hot Desk</option>
-                <option value="Option 2">Private Office</option>
-                <option value="Option 3">Metting Room</option>
+              <select class="space-select" v-model="office">
+                <option value="Hot Desk" selected>Hot Desk</option>
+                <option value="Private Office">Private Office</option>
+                <option value="Metting Room">Metting Room</option>
               </select>
             </div>
             <div class="space-team-size">
@@ -155,6 +159,7 @@
                 type="number"
                 placeholder="Number of elements"
                 class="space-textinput2 input"
+                v-model="teamsize"
               />
             </div>
             <router-link to="/book">
@@ -173,27 +178,63 @@
 </template>
 
 <script>
-import HeaderLogged from '../components/header-logged'
-import PrimaryBlueButton from '../components/primary-blue-button'
-import AppFooter from '../components/footer'
+import HeaderLogged from "../components/header-logged";
+import PrimaryBlueButton from "../components/primary-blue-button";
+import AppFooter from "../components/footer";
 
 export default {
-  name: 'Space',
+  name: "Space",
   components: {
     HeaderLogged,
     PrimaryBlueButton,
     AppFooter,
   },
+
+  data() {
+    return {
+      name: "",
+      rating: "",
+      nReview: "",
+      description: "",
+      location: "",
+      accessHours: null,
+      priceTable: [],
+      amenities: [],
+      checkin: "",
+      checkout: "",
+      office: "",
+      teamsize: 1,
+    };
+  },
+
+  beforeMount() {
+    fetch(
+      "http://localhost:3000/spaces/" +
+        window.location.pathname.split("/").pop()
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        this.name = data.name;
+        this.rating = data.rating;
+        this.nReview = data.nReview;
+        this.description = data.description;
+        this.location = data.location;
+        this.accessHours = data.accessHours;
+        this.priceTable = data.priceTable;
+        this.amenities = data.amenities;
+      });
+  },
+
   metaInfo: {
-    title: 'Space - CoworkClub',
+    title: "Space - CoworkClub",
     meta: [
       {
-        property: 'og:title',
-        content: 'Space - CoworkClub',
+        property: "og:title",
+        content: "Space - CoworkClub",
       },
     ],
   },
-}
+};
 </script>
 
 <style scoped>
@@ -316,7 +357,7 @@ export default {
 }
 .space-text {
   text-align: center;
-  background-image: linear-gradient(310deg,#7928ca,#ff0080);
+  background-image: linear-gradient(310deg, #7928ca, #ff0080);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -788,12 +829,12 @@ export default {
 .space-component1 {
   text-decoration: none;
 }
-@media(max-width: 991px) {
+@media (max-width: 991px) {
   .space-gallery {
     max-width: 960px;
   }
 }
-@media(max-width: 767px) {
+@media (max-width: 767px) {
   .space-image1 {
     height: 370px;
   }
@@ -814,7 +855,7 @@ export default {
     align-self: flex-end;
   }
 }
-@media(max-width: 479px) {
+@media (max-width: 479px) {
   .space-gallery {
     flex-wrap: wrap;
     align-items: center;

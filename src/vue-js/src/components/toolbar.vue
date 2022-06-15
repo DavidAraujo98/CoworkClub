@@ -3,39 +3,69 @@
     <div class="toolbar-header">
       <div class="toolbar-container1">
         <h4 class="toolbar-text">{{ text1 }}</h4>
-        <input type="number" placeholder="Min" class="toolbar-textinput input" />
+        <input
+          type="number"
+          placeholder="Min"
+          class="toolbar-textinput input"
+          v-model="min_price"
+          min="0"
+          @input="() => this.$emit('minprice', min_price)"
+        />
         <label class="toolbar-label">{{ text }}</label>
-        <input type="number" placeholder="Max" class="toolbar-textinput1 input" />
+        <input
+          type="number"
+          placeholder="Max"
+          class="toolbar-textinput1 input"
+          v-model="max_price"
+          @input="() => this.$emit('maxprice', max_price)"
+        />
       </div>
       <div class="toolbar-container2">
         <h4 class="toolbar-text1">{{ text11 }}</h4>
-        <input type="checkbox" checked="true" class="toolbar-checkbox" />
+        <input
+          type="checkbox"
+          checked="true"
+          class="toolbar-checkbox"
+          v-model="parking"
+          @change="() => this.$emit('parking', parking)"
+        />
       </div>
       <div class="toolbar-container3">
-        <select class="toolbar-select">
+        <select
+          class="toolbar-select"
+          v-model="amenities"
+          @change="() => this.$emit('amenities', amenities)"
+        >
           <option value="Amenities" selected>Amenities</option>
-          <option value="Option 2">Option 2</option>
-          <option value="Option 3">Option 3</option>
-          <option value="Option 4">Option 4</option>
+          <option value="Coffee">Coffee</option>
+          <option value="Snacks">Snacks</option>
+          <option value="Zoom Both">Zoom Both</option>
         </select>
       </div>
       <div class="toolbar-container4">
         <h4 class="toolbar-text2">{{ text12 }}</h4>
         <input
-          type="text"
+          type="time"
           placeholder="Checkin"
           class="toolbar-textinput2 input"
+          v-model="min_hours"
+          @input="() => this.$emit('minhours', min_hours)"
         />
         <label class="toolbar-label1">{{ text2 }}</label>
         <input
-          type="text"
+          type="time"
           placeholder="Checkout"
           class="toolbar-textinput3 input"
+          v-model="max_hours"
+          @input="() => this.$emit('maxhours', max_hours)"
         />
       </div>
       <div class="toolbar-container5">
-        <select class="toolbar-select1">
-          <option value="Hot Desk" selected>Hot Desk</option>
+        <select
+          class="toolbar-select1"
+          @change="() => this.$emit('type', type)"
+        >
+          <option value="" selected>Hot Desk</option>
           <option value="Virtual Office">Virtual Office</option>
           <option value="Private Office">Private Office</option>
           <option value="Meeting Room">Meeting Room</option>
@@ -47,39 +77,52 @@
 
 <script>
 export default {
-  name: 'Toolbar',
+  name: "Toolbar",
+
+  data() {
+    return {
+      min_price: null,
+      max_price: null,
+      parking: false,
+      amenities: null,
+      min_hours: "00:00",
+      max_hours: "23:59",
+      type: null,
+    };
+  },
+
   props: {
     text: {
       type: String,
-      default: 'to',
+      default: "to",
     },
     text2: {
       type: String,
-      default: 'to',
+      default: "to",
     },
     text1: {
       type: String,
-      default: 'Price Range',
+      default: "Price Range",
     },
     textinput_placeholder: {
       type: String,
-      default: 'placeholder',
+      default: "placeholder",
     },
     text11: {
       type: String,
-      default: 'Parking',
+      default: "Parking",
     },
     text12: {
       type: String,
-      default: 'Access Hours',
+      default: "Access Hours",
     },
     rootClassName: String,
     textinput_placeholder1: {
       type: String,
-      default: 'placeholder',
+      default: "placeholder",
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -100,7 +143,8 @@ export default {
   z-index: 3;
   flex-wrap: wrap;
   align-self: center;
-  box-shadow: 0 .25rem .375rem -.0625rem hsla(0,0%,8%,.12),0 .125rem .25rem -.0625rem hsla(0,0%,8%,.07)!important;
+  box-shadow: 0 0.25rem 0.375rem -0.0625rem hsla(0, 0%, 8%, 0.12),
+    0 0.125rem 0.25rem -0.0625rem hsla(0, 0%, 8%, 0.07) !important;
   align-items: flex-start;
   padding-top: var(--dl-space-space-halfunit);
   padding-left: var(--dl-space-space-unitandahalfunit);
@@ -221,7 +265,7 @@ export default {
   text-transform: capitalize;
 }
 .toolbar-textinput2 {
-  width: 70%;
+  width: 90%;
   height: 75%;
   margin-top: var(--dl-space-space-halfunit);
   text-align: right;
@@ -240,7 +284,7 @@ export default {
   margin-right: 0px;
 }
 .toolbar-textinput3 {
-  width: 70%;
+  width: 90%;
   height: 75%;
   text-align: right;
   border-width: 0px;
@@ -268,19 +312,19 @@ export default {
 .toolbar-root-class-name {
   margin-top: 5rem;
 }
-@media(max-width: 991px) {
+@media (max-width: 991px) {
   .toolbar-header {
     height: auto;
   }
 }
-@media(max-width: 767px) {
+@media (max-width: 767px) {
   .toolbar-header {
     width: 100%;
     height: auto;
     margin-right: 0px;
   }
 }
-@media(max-width: 479px) {
+@media (max-width: 479px) {
   .toolbar-header {
     height: auto;
     flex-wrap: wrap;

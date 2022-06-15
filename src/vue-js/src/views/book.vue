@@ -13,7 +13,7 @@
             <h1 class="book-text">
               <span>
                 Booking at
-                <span v-html="rawlona"></span>
+                <span v-html="raw7qs3"></span>
               </span>
               <span class="book-text02">Aveiro Hub</span>
             </h1>
@@ -99,7 +99,7 @@ export default {
 
   data() {
     return {
-      rawlona: ' ',
+      raw7qs3: ' ',
     }
   },
 

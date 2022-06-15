@@ -1,64 +1,33 @@
 <template>
   <div class="spaces-container">
-    <header-logged rootClassName="header-logged-root-class-name"></header-logged>
-    <app-toolbar rootClassName="toolbar-root-class-name"></app-toolbar>
+    <header-logged
+      rootClassName="header-logged-root-class-name"
+    ></header-logged>
+    <app-toolbar
+      rootClassName="toolbar-root-class-name"
+      @minprice="setMinPrice"
+      @maxprice="setMaxPrice"
+      @parking="setParking"
+      @amenities="setAmenities"
+      @minhours="setMinHours"
+      @maxhours="setMaxHours"
+      @type="setType"
+    ></app-toolbar>
     <div class="spaces-container1">
       <div class="spaces-container2">
-        <space-card
-          price="30 €/day"
-          title="Aveiro Hub"
-          rating="4.5/5"
-          image_src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDE0fHxvZmZpY2V8ZW58MHx8fHwxNjU0MDk1MjY5&amp;ixlib=rb-1.2.1&amp;w=300"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-          rootClassName="space-card-root-class-name1"
-        ></space-card>
-        <space-card
-          price="27 €/day"
-          title="Work Smart"
-          rating="4/5"
-          image_src="https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDE2fHxvZmZpY2V8ZW58MHx8fHwxNjU0MDk1MjY5&amp;ixlib=rb-1.2.1&amp;w=300"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-          rootClassName="space-card-root-class-name"
-        ></space-card>
-        <space-card
-          price="18 €/day"
-          title="CoLab"
-          rating="3.9/5"
-          image_src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDR8fG9mZmljZXxlbnwwfHx8fDE2NTQwOTUyNjk&amp;ixlib=rb-1.2.1&amp;w=300"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-          rootClassName="space-card-root-class-name2"
-        ></space-card>
-        <space-card
-          price="22 €/day"
-          title="Station"
-          rating="4.9/5"
-          image_src="https://images.unsplash.com/photo-1564069114553-7215e1ff1890?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDIwfHxvZmZpY2V8ZW58MHx8fHwxNjU0MDk1MjY5&amp;ixlib=rb-1.2.1&amp;w=300"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-          rootClassName="space-card-root-class-name3"
-        ></space-card>
-        <space-card
-          price="50 €/day"
-          title="Business Center"
-          rating="4.1/5"
-          image_src="https://images.unsplash.com/photo-1570126688035-1e6adbd61053?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDE4fHxvZmZpY2V8ZW58MHx8fHwxNjU0MDk1MjY5&amp;ixlib=rb-1.2.1&amp;w=300"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-          rootClassName="space-card-root-class-name4"
-        ></space-card>
-        <space-card
-          price="40  €/day "
-          title="Dream Work"
-          image_src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDl8fG9mZmljZXxlbnwwfHx8fDE2NTQwOTUyNjk&amp;ixlib=rb-1.2.1&amp;w=300"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-          rootClassName="space-card-root-class-name5"
-        ></space-card>
-        <space-card
-          price="32 €/day"
-          title="Rover"
-          rating="5/5"
-          image_src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDI0fHxvZmZpY2V8ZW58MHx8fHwxNjU0MDk1MjY5&amp;ixlib=rb-1.2.1&amp;w=300"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
-          rootClassName="space-card-root-class-name6"
-        ></space-card>
+        <div v-for="item in space_list" :key="item.id">
+          <space-card
+            v-if="item.price >= min_price && item.price <= max_price"
+            :name="item.name"
+            :id="item.id"
+            :price="`${item.price}€/day`"
+            :title="item.id"
+            :rating="item.rating"
+            image_src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDE0fHxvZmZpY2V8ZW58MHx8fHwxNjU0MDk1MjY5&amp;ixlib=rb-1.2.1&amp;w=300"
+            :description="item.description"
+            rootClassName="space-card-root-class-name1"
+          ></space-card>
+        </div>
       </div>
     </div>
     <app-footer rootClassName="footer-root-class-name"></app-footer>
@@ -66,29 +35,73 @@
 </template>
 
 <script>
-import HeaderLogged from '../components/header-logged'
-import AppToolbar from '../components/toolbar'
-import SpaceCard from '../components/space-card'
-import AppFooter from '../components/footer'
+import HeaderLogged from "../components/header-logged";
+import AppToolbar from "../components/toolbar";
+import SpaceCard from "../components/space-card";
+import AppFooter from "../components/footer";
 
 export default {
-  name: 'Spaces',
+  name: "Spaces",
   components: {
     HeaderLogged,
     AppToolbar,
     SpaceCard,
     AppFooter,
   },
+
+  data() {
+    return {
+      space_list: [],
+      min_price: 0,
+      max_price: 9999999,
+      parking: false,
+      amenities: null,
+      min_hours: "00:00",
+      max_hours: "23:59",
+      type: null,
+    };
+  },
+
+  methods: {
+    setMinPrice(val) {
+      this.min_price = val == "" ? 0 : parseInt(val);
+    },
+    setMaxPrice(val) {
+      this.max_price = val == "" ? 9999999 : parseInt(val);
+    },
+    setParking(val) {
+      this.parking = val;
+    },
+    setAmenities(val) {
+      this.amenities = val;
+    },
+    setMinHours(val) {
+      this.min_hours = val;
+    },
+    setMaxHours(val) {
+      this.max_hours = val;
+    },
+    setType(val) {
+      this.type = val;
+    },
+  },
+
+  beforeMount() {
+    fetch("http://localhost:3000/spaces" + window.location.search)
+      .then((res) => res.json())
+      .then((data) => (this.space_list = data));
+  },
+
   metaInfo: {
-    title: 'Spaces - CoworkClub',
+    title: "Spaces - CoworkClub",
     meta: [
       {
-        property: 'og:title',
-        content: 'Spaces - CoworkClub',
+        property: "og:title",
+        content: "Spaces - CoworkClub",
       },
     ],
   },
-}
+};
 </script>
 
 <style scoped>
@@ -110,29 +123,29 @@ export default {
   align-self: center;
   margin-top: var(--dl-space-space-tripleunit);
   min-height: 85vh;
-  align-items: center;
+  align-items: top;
   margin-bottom: var(--dl-space-space-halfunit);
   flex-direction: column;
   justify-content: flex-start;
 }
 .spaces-container2 {
   width: 100%;
-  height: 961px;
+  height: auto;
   margin: 0px;
   display: flex;
   padding: 0px;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: start;
   flex-direction: row;
   justify-content: flex-start;
 }
-@media(max-width: 991px) {
+@media (max-width: 991px) {
   .spaces-container1 {
     max-width: 960px;
     margin-top: var(--dl-space-space-sixunits);
   }
 }
-@media(max-width: 767px) {
+@media (max-width: 767px) {
   .spaces-container1 {
     align-self: center;
     margin-top: var(--dl-space-space-fourunits);
@@ -144,7 +157,7 @@ export default {
     justify-content: center;
   }
 }
-@media(max-width: 479px) {
+@media (max-width: 479px) {
   .spaces-container1 {
     height: auto;
     margin-top: var(--dl-space-space-twelveunits);

@@ -9,9 +9,11 @@
           <span class="home-text2 lead">
             <span>
               Find the story of Creative Tim&apos;s most complex design
-              <span v-html="raw8t7t"></span>
+              <span v-html="rawwfx2"></span>
             </span>
-            <span>system and all the work that make this design available.</span>
+            <span
+              >system and all the work that make this design available.</span
+            >
           </span>
           <input
             type="text"
@@ -19,8 +21,9 @@
             autofocus
             placeholder="Where to ?"
             class="home-textinput input"
+            v-model="search"
           />
-          <router-link to="/spaces" class="home-navlink">
+          <router-link :to="`spaces?search=${search}`" class="home-navlink">
             <primary-pink-button
               button="Search"
               rootClassName="primary-pink-button-root-class-name"
@@ -70,13 +73,13 @@
 </template>
 
 <script>
-import AppHeader from '../components/header'
-import PrimaryPinkButton from '../components/primary-pink-button'
-import FeatureCard from '../components/feature-card'
-import AppFooter from '../components/footer'
+import AppHeader from "../components/header";
+import PrimaryPinkButton from "../components/primary-pink-button";
+import FeatureCard from "../components/feature-card";
+import AppFooter from "../components/footer";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     AppHeader,
     PrimaryPinkButton,
@@ -86,20 +89,21 @@ export default {
 
   data() {
     return {
-      raw8t7t: ' ',
-    }
+      search: "",
+      rawwfx2: " ",
+    };
   },
 
   metaInfo: {
-    title: 'CoworkClub',
+    title: "CoworkClub",
     meta: [
       {
-        property: 'og:title',
-        content: 'CoworkClub',
+        property: "og:title",
+        content: "CoworkClub",
       },
     ],
   },
-}
+};
 </script>
 
 <style scoped>
@@ -135,17 +139,18 @@ export default {
   display: flex;
   padding: var(--dl-space-space-tripleunit);
   z-index: 1;
-  box-shadow: 0 8px 26px -4px hsla(0,0%,8%,.15),0 8px 9px -5px hsla(0,0%,8%,.06)!important;
+  box-shadow: 0 8px 26px -4px hsla(0, 0%, 8%, 0.15),
+    0 8px 9px -5px hsla(0, 0%, 8%, 0.06) !important;
   margin-top: var(--dl-space-space-tripleunit);
   align-items: flex-start;
   border-radius: var(--dl-radius-radius-radius1);
   flex-direction: column;
   backdrop-filter: saturate(200%) blur(30px);
-  background-color: hsla(0,0%,100%,.8);
+  background-color: hsla(0, 0%, 100%, 0.8);
 }
 .home-text {
   text-align: center;
-  background-image: linear-gradient(310deg,#7928ca,#ff0080);
+  background-image: linear-gradient(310deg, #7928ca, #ff0080);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -203,7 +208,7 @@ export default {
   flex-direction: row;
   padding-bottom: var(--dl-space-space-sixunits);
 }
-@media(max-width: 991px) {
+@media (max-width: 991px) {
   .home-hero {
     padding-left: var(--dl-space-space-tripleunit);
     padding-right: var(--dl-space-space-tripleunit);
@@ -218,7 +223,7 @@ export default {
     max-width: 960px;
   }
 }
-@media(max-width: 767px) {
+@media (max-width: 767px) {
   .home-card {
     align-items: center;
   }
@@ -238,7 +243,7 @@ export default {
     padding-bottom: var(--dl-space-space-doubleunit);
   }
 }
-@media(max-width: 479px) {
+@media (max-width: 479px) {
   .home-card {
     padding: var(--dl-space-space-unit);
   }
