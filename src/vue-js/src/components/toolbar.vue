@@ -3,39 +3,19 @@
     <div class="toolbar-header">
       <div class="toolbar-container1">
         <h4 class="toolbar-text">{{ text1 }}</h4>
-        <input
-          type="number"
-          placeholder="Min"
-          class="toolbar-textinput input"
-          v-model="min_price"
-          min="0"
-          @input="() => this.$emit('minprice', min_price)"
-        />
+        <input type="number" placeholder="Min" class="toolbar-textinput input" v-model="min_price" min="0"
+          @input="() => this.$emit('minprice', min_price)" />
         <label class="toolbar-label">{{ text }}</label>
-        <input
-          type="number"
-          placeholder="Max"
-          class="toolbar-textinput1 input"
-          v-model="max_price"
-          @input="() => this.$emit('maxprice', max_price)"
-        />
+        <input type="number" placeholder="Max" class="toolbar-textinput1 input" min="0" v-model="max_price"
+          @input="() => this.$emit('maxprice', max_price)" />
       </div>
       <div class="toolbar-container2">
         <h4 class="toolbar-text1">{{ text11 }}</h4>
-        <input
-          type="checkbox"
-          checked="true"
-          class="toolbar-checkbox"
-          v-model="parking"
-          @change="() => this.$emit('parking', parking)"
-        />
+        <input type="checkbox" checked="true" class="toolbar-checkbox" v-model="parking"
+          @change="() => this.$emit('parking', parking)" />
       </div>
       <div class="toolbar-container3">
-        <select
-          class="toolbar-select"
-          v-model="amenities"
-          @change="() => this.$emit('amenities', amenities)"
-        >
+        <select class="toolbar-select" v-model="amenities" @change="() => this.$emit('amenities', amenities)">
           <option value="Amenities" selected>Amenities</option>
           <option value="Coffee">Coffee</option>
           <option value="Snacks">Snacks</option>
@@ -44,27 +24,14 @@
       </div>
       <div class="toolbar-container4">
         <h4 class="toolbar-text2">{{ text12 }}</h4>
-        <input
-          type="time"
-          placeholder="Checkin"
-          class="toolbar-textinput2 input"
-          v-model="min_hours"
-          @input="() => this.$emit('minhours', min_hours)"
-        />
+        <input type="time" placeholder="Checkin" class="toolbar-textinput2 input" v-model="min_hours"
+          @input="() => this.$emit('minhours', min_hours)" />
         <label class="toolbar-label1">{{ text2 }}</label>
-        <input
-          type="time"
-          placeholder="Checkout"
-          class="toolbar-textinput3 input"
-          v-model="max_hours"
-          @input="() => this.$emit('maxhours', max_hours)"
-        />
+        <input type="time" placeholder="Checkout" class="toolbar-textinput3 input" v-model="max_hours"
+          @input="() => this.$emit('maxhours', max_hours)" />
       </div>
       <div class="toolbar-container5">
-        <select
-          class="toolbar-select1"
-          @change="() => this.$emit('type', type)"
-        >
+        <select class="toolbar-select1" @change="() => this.$emit('type', type)">
           <option value="" selected>Hot Desk</option>
           <option value="Virtual Office">Virtual Office</option>
           <option value="Private Office">Private Office</option>
