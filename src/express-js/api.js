@@ -26,6 +26,7 @@ app.get("/spaces", (req, res) => {
             description:
                 "Premium cowork office in Aveiro (Portuguese Venice).AveiroHub exists in order to change the way people feel about their working week.",
             price: "30",
+            thumbnail: "assets/office_1.jpg",
         },
         {
             id: "WorkSmart",
@@ -37,6 +38,7 @@ app.get("/spaces", (req, res) => {
             description:
                 "In Ocupa Cowork Aveiro you can get more than just a place to work... you get a community, you get free coffee. Place near the Aveiro river",
             price: "27",
+            thumbnail: "assets/office_2.jpg",
         },
         {
             id: "OcupaAveiro",
@@ -47,6 +49,7 @@ app.get("/spaces", (req, res) => {
             description:
                 "In Ocupa Cowork Aveiro you can get more than just a place to work... you get a community, you get free coffee. Place near the Aveiro river",
             price: "20",
+            thumbnail: "assets/office_3.jpg",
         },
         {
             id: "BusinessCenter",
@@ -58,6 +61,7 @@ app.get("/spaces", (req, res) => {
             description:
                 "In Ocupa Cowork Aveiro you can get more than just a place to work... you get a community, you get free coffee. Place near the Aveiro river",
             price: "25",
+            thumbnail: "assets/office_4.jpg",
         },
         {
             id: "ClubWork",
@@ -69,6 +73,7 @@ app.get("/spaces", (req, res) => {
             description:
                 "In Ocupa Cowork Aveiro you can get more than just a place to work... you get a community, you get free coffee. Place near the Aveiro river",
             price: "17",
+            thumbnail: "assets/office_5.jpg",
         },
     ];
     res.send(response);
@@ -103,24 +108,49 @@ app.get("/spaces/:name", (req, res) => {
         priceTable: [
             {
                 id: "hotdesk",
+                name: "Hot Desk",
                 list: [
                     {
-                        people: 1,
-                        duration: "1",
+                        people: "1",
+                        duration: "1 day",
                         price: "15",
-                        hours: 8,
+                        hours: "8 per/day",
                     },
                     {
-                        people: 1,
-                        duration: "2",
-                        price: "28",
-                        hours: 8,
+                        people: "1",
+                        duration: "1 week",
+                        price: "75",
+                        hours: "8 per/day",
                     },
                     {
-                        people: 1,
-                        duration: "3",
+                        people: "1",
+                        duration: "1 month",
+                        price: "250",
+                        hours: "10 per/day",
+                    },
+                ],
+            },
+            {
+                id: "privoffice",
+                name: "Private Office",
+                list: [
+                    {
+                        people: "1-4",
+                        duration: "1 day",
                         price: "40",
-                        hours: 8,
+                        hours: "8 per/day",
+                    },
+                    {
+                        people: "1-4",
+                        duration: "1 week",
+                        price: "240",
+                        hours: "8 per/day",
+                    },
+                    {
+                        people: "1-4",
+                        duration: "1 month",
+                        price: "810",
+                        hours: "10 per/day",
                     },
                 ],
             },
@@ -130,9 +160,7 @@ app.get("/spaces/:name", (req, res) => {
     res.send(response);
 });
 
-app.post("/book/:name", (req, res) => {
-    
-});
+app.post("/book/:name", (req, res) => {});
 
 app.get("/profile/:name", (req, res) => {
     /*  Route path

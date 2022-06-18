@@ -30,7 +30,7 @@
             :price="`${item.price}€/day`"
             :title="item.id"
             :rating="item.rating"
-            image_src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?ixid=Mnw5MTMyMXwwfDF8c2VhcmNofDE0fHxvZmZpY2V8ZW58MHx8fHwxNjU0MDk1MjY5&amp;ixlib=rb-1.2.1&amp;w=300"
+            :image_src="item.thumbnail"
             :description="item.description"
             rootClassName="space-card-root-class-name1"
           ></space-card>

@@ -1,8 +1,6 @@
 <template>
   <div class="space-container">
-    <header-logged
-      rootClassName="header-logged-root-class-name1"
-    ></header-logged>
+    <header-logged rootClassName="header-logged-root-class-name1"></header-logged>
     <div class="space-gallery">
       <div class="space-row">
         <img
@@ -42,9 +40,7 @@
               <h1 class="space-text headingOne">{{ name }}</h1>
               <div class="space-container2">
                 <h1 class="space-text01 headingOne">{{ rating }} / 5</h1>
-                <span class="space-text02"
-                  ><span>{{ nReview }} reviews</span></span
-                >
+                <span class="space-text02"><span>{{ nReview }} reviews</span></span>
               </div>
             </div>
             <div class="space-container3">
@@ -88,33 +84,40 @@
             <h2 class="space-text18"><span>Pricing</span></h2>
             <div class="space-table">
               <div class="space-types">
-                <span class="space-text20">Private Office</span>
-                <span class="space-text21">Hot Desk</span>
-                <span class="space-text22">Meeting Room</span>
-                <span class="space-text23">Virtual Services</span>
+                <button 
+                  class="space-button button"
+                  v-for="option in priceTable"
+                  :key="option.id"
+                  v-bind:value="option.id"
+                  @click="selectedOffice=option.id"
+                >
+                  <span class="space-text20">
+                    <span>{{option.name}}</span>
+                  </span>
+                </button>
               </div>
               <div class="space-prices">
                 <div class="space-head">
-                  <span class="space-text24">Nº People</span>
-                  <span class="space-text25">Duration</span>
-                  <span class="space-text26">Price</span>
-                  <span class="space-text27">Access Hours</span>
+                  <span class="space-text31">Nº People</span>
+                  <span class="space-text32">Duration</span>
+                  <span class="space-text33">Price</span>
+                  <span class="space-text34">Access Hours</span>
                 </div>
-                <div
-                  class="space-row-1"
-                  v-for="item in priceTable[0].list"
-                  :key="item.id"
+                <div 
+                    class="space-row-1"
+                    v-for="item in priceTable.find(x => x.id == selectedOffice).list"
+                    :key="item.id"
                 >
-                  <span class="space-text28">{{ item.people }}</span>
-                  <span class="space-text29">{{ item.duration }} day</span>
-                  <span class="space-text30">EUR {{ item.price }}</span>
-                  <span class="space-text31">{{ item.hours }}</span>
+                  <span class="space-text35">{{ item.people }}</span>
+                  <span class="space-text36">{{ item.duration }}</span>
+                  <span class="space-text37">EUR {{ item.price }}</span>
+                  <span class="space-text38">{{ item.hours }}</span>
                 </div>
               </div>
             </div>
           </div>
           <div class="space-amenities">
-            <h2 class="space-text32">Amenities</h2>
+            <h2 class="space-text39">Amenities</h2>
             <div class="space-container5">
               <span
                 class="space-text33"
@@ -127,9 +130,9 @@
         </div>
         <div class="space-right">
           <form class="space-form">
-            <h2 class="space-text43">Booking</h2>
+            <h2 class="space-text50">Booking</h2>
             <div class="space-checkin">
-              <label class="space-text44"><span>Checkin</span></label>
+              <label class="space-text51"><span>Checkin</span></label>
               <input
                 type="datetime-local"
                 placeholder="placeholder"
@@ -138,7 +141,7 @@
               />
             </div>
             <div class="space-checkout">
-              <label class="space-text46"><span>Checkout</span></label>
+              <label class="space-text53"><span>Checkout</span></label>
               <input
                 type="datetime-local"
                 placeholder="placeholder"
@@ -147,11 +150,20 @@
               />
             </div>
             <div class="space-office-type">
-              <label class="space-text48"><span>Office type</span></label>
-              <select class="space-select" v-model="office">
-                <option value="hotdesk" selected>Hot Desk</option>
-                <option value="privoffice">Private Office</option>
-                <option value="meeting">Metting Room</option>
+              <label class="space-text55"><span>Office type</span></label>
+              <select
+                class="space-select"
+                v-model="officetype"
+                @change="getName"
+                required
+              >
+                <option
+                  v-for="option in priceTable"
+                  :key="option.id"
+                  v-bind:value="option.id"
+                >
+                  {{ option.name }}
+                </option>
               </select>
             </div>
             <div class="space-team-size">
@@ -163,8 +175,8 @@
                 v-model="teamsize"
               />
             </div>
-            <router-link
-              :to="`book/${id}?name=${name}&checkin=${checkin}&checkout=${checkout}&office=${office}&teamsize=${teamsize}`"
+            <router-link 
+                :to="`book/${id}?name=${name}&checkin=${checkin}&checkout=${checkout}&officetype=${officetype}&office=${office}&teamsize=${teamsize}`"
             >
               <primary-blue-button
                 button="Book Now"
@@ -186,12 +198,13 @@ import PrimaryBlueButton from "../components/primary-blue-button";
 import AppFooter from "../components/footer";
 
 export default {
-  name: "Space",
+  name: 'Space',
+  props: {},
   components: {
     HeaderLogged,
     PrimaryBlueButton,
     AppFooter,
-  },
+    },
 
   data() {
     return {
@@ -203,12 +216,22 @@ export default {
       location: "",
       accessHours: null,
       priceTable: [],
+      selectedOffice: 0,
       amenities: [],
       checkin: "",
       checkout: "",
       office: "",
+      officetype: "",
       teamsize: 1,
     };
+  },
+
+  methods: {
+    getName() {
+      this.office = this.priceTable.filter(
+        (x) => x.id == this.officetype
+      )[0].name;
+    },
   },
 
   beforeMount() {
@@ -226,8 +249,11 @@ export default {
         this.location = data.location;
         this.accessHours = data.accessHours;
         this.priceTable = data.priceTable;
+        this.selectedOffice = this.priceTable[0].id;
         this.amenities = data.amenities;
       });
+
+    
   },
 
   metaInfo: {
@@ -239,7 +265,7 @@ export default {
       },
     ],
   },
-};
+}
 </script>
 
 <style scoped>
@@ -362,7 +388,7 @@ export default {
 }
 .space-text {
   text-align: center;
-  background-image: linear-gradient(310deg, #7928ca, #ff0080);
+  background-image: linear-gradient(310deg,#7928ca,#ff0080);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -518,7 +544,6 @@ export default {
   width: 100%;
   display: flex;
   padding: var(--dl-space-space-halfunit);
-  box-shadow: 5px 5px 10px 0px #d4d4d4;
   align-items: flex-start;
   border-color: var(--dl-color-gray-800);
   border-width: 1px;
@@ -536,41 +561,63 @@ export default {
   border-radius: var(--dl-radius-radius-radius40);
   padding-right: var(--dl-space-space-unit);
   justify-content: space-around;
+  margin-bottom: 0.5rem;
+}
+.space-button {
+  color: var(--dl-color-primary-100);
+  font-size: 1.2rem;
+  padding-top: 0px;
+  border-width: 0px;
+  padding-left: var(--dl-space-space-unit);
+  border-radius: var(--dl-radius-radius-radius40);
+  padding-right: var(--dl-space-space-unit);
+  padding-bottom: 0px;
+  background-color: var(--dl-color-gray-900);
 }
 .space-text20 {
   color: var(--dl-color-primary-500);
-  width: 100%;
-  font-size: 1.2rem;
-  text-align: left;
-  margin-left: var(--dl-space-space-halfunit);
-  margin-right: var(--dl-space-space-halfunit);
-  padding-left: var(--dl-space-space-halfunit);
-  border-radius: var(--dl-radius-radius-radius40);
-  padding-right: var(--dl-space-space-halfunit);
 }
-.space-text21 {
-  width: 100%;
+.space-button1 {
+  color: var(--dl-color-primary-100);
   font-size: 1.2rem;
-  text-align: left;
-  margin-left: var(--dl-space-space-halfunit);
-  margin-right: var(--dl-space-space-halfunit);
+  padding-top: 0px;
+  border-width: 0px;
+  padding-left: var(--dl-space-space-unit);
   border-radius: var(--dl-radius-radius-radius40);
-}
-.space-text22 {
-  width: 100%;
-  font-size: 1.2rem;
-  text-align: left;
-  margin-left: var(--dl-space-space-halfunit);
-  margin-right: var(--dl-space-space-halfunit);
-  border-radius: var(--dl-radius-radius-radius40);
+  padding-right: var(--dl-space-space-unit);
+  padding-bottom: 0px;
+  background-color: var(--dl-color-gray-900);
 }
 .space-text23 {
-  width: 100%;
+  color: var(--dl-color-primary-500);
+}
+.space-button2 {
+  color: var(--dl-color-primary-100);
   font-size: 1.2rem;
-  text-align: left;
-  margin-left: var(--dl-space-space-halfunit);
-  margin-right: var(--dl-space-space-halfunit);
+  padding-top: 0px;
+  border-width: 0px;
+  padding-left: var(--dl-space-space-unit);
   border-radius: var(--dl-radius-radius-radius40);
+  padding-right: var(--dl-space-space-unit);
+  padding-bottom: 0px;
+  background-color: var(--dl-color-gray-900);
+}
+.space-text25 {
+  color: var(--dl-color-primary-500);
+}
+.space-button3 {
+  color: var(--dl-color-primary-100);
+  font-size: 1.2rem;
+  padding-top: 0px;
+  border-width: 0px;
+  padding-left: var(--dl-space-space-unit);
+  border-radius: var(--dl-radius-radius-radius40);
+  padding-right: var(--dl-space-space-unit);
+  padding-bottom: 0px;
+  background-color: var(--dl-color-gray-900);
+}
+.space-text28 {
+  color: var(--dl-color-primary-500);
 }
 .space-prices {
   width: 100%;
@@ -596,7 +643,7 @@ export default {
   padding-right: var(--dl-space-space-unit);
   justify-content: space-between;
 }
-.space-text24 {
+.space-text31 {
   color: var(--dl-color-secondary-500);
   width: 100%;
   font-size: 1rem;
@@ -607,7 +654,7 @@ export default {
   border-radius: var(--dl-radius-radius-radius40);
   padding-right: var(--dl-space-space-halfunit);
 }
-.space-text25 {
+.space-text32 {
   color: var(--dl-color-secondary-500);
   width: 100%;
   font-size: 1rem;
@@ -616,7 +663,7 @@ export default {
   margin-right: var(--dl-space-space-halfunit);
   border-radius: var(--dl-radius-radius-radius40);
 }
-.space-text26 {
+.space-text33 {
   color: var(--dl-color-secondary-500);
   width: 100%;
   font-size: 1rem;
@@ -625,7 +672,7 @@ export default {
   margin-right: var(--dl-space-space-halfunit);
   border-radius: var(--dl-radius-radius-radius40);
 }
-.space-text27 {
+.space-text34 {
   color: var(--dl-color-secondary-500);
   width: 100%;
   font-size: 1rem;
@@ -645,7 +692,7 @@ export default {
   padding-right: var(--dl-space-space-unit);
   justify-content: space-between;
 }
-.space-text28 {
+.space-text35 {
   color: var(--dl-color-secondary-400);
   width: 100%;
   font-size: 1rem;
@@ -656,7 +703,7 @@ export default {
   border-radius: var(--dl-radius-radius-radius40);
   padding-right: var(--dl-space-space-halfunit);
 }
-.space-text29 {
+.space-text36 {
   color: var(--dl-color-secondary-400);
   width: 100%;
   font-size: 1rem;
@@ -665,7 +712,7 @@ export default {
   margin-right: var(--dl-space-space-halfunit);
   border-radius: var(--dl-radius-radius-radius40);
 }
-.space-text30 {
+.space-text37 {
   color: var(--dl-color-secondary-400);
   width: 100%;
   font-size: 1rem;
@@ -674,7 +721,7 @@ export default {
   margin-right: var(--dl-space-space-halfunit);
   border-radius: var(--dl-radius-radius-radius40);
 }
-.space-text31 {
+.space-text38 {
   color: var(--dl-color-secondary-400);
   width: 100%;
   font-size: 1rem;
@@ -691,7 +738,7 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
 }
-.space-text32 {
+.space-text39 {
   color: var(--dl-color-secondary-500);
 }
 .space-container5 {
@@ -703,24 +750,24 @@ export default {
   align-items: flex-start;
   justify-content: space-around;
 }
-.space-text33 {
+.space-text40 {
   min-width: auto;
   padding-left: var(--dl-space-space-unit);
   padding-right: var(--dl-space-space-unit);
 }
-.space-text35 {
+.space-text42 {
   padding-left: var(--dl-space-space-unit);
   padding-right: var(--dl-space-space-unit);
 }
-.space-text37 {
+.space-text44 {
   padding-left: var(--dl-space-space-unit);
   padding-right: var(--dl-space-space-unit);
 }
-.space-text39 {
+.space-text46 {
   padding-left: var(--dl-space-space-unit);
   padding-right: var(--dl-space-space-unit);
 }
-.space-text41 {
+.space-text48 {
   padding-left: var(--dl-space-space-unit);
   padding-right: var(--dl-space-space-unit);
 }
@@ -742,7 +789,7 @@ export default {
   border-width: 1px;
   border-radius: var(--dl-radius-radius-radius40);
 }
-.space-text43 {
+.space-text50 {
   color: var(--dl-color-primary-500);
 }
 .space-checkin {
@@ -754,7 +801,7 @@ export default {
   margin-bottom: var(--dl-space-space-halfunit);
   flex-direction: column;
 }
-.space-text44 {
+.space-text51 {
   color: var(--dl-color-secondary-500);
   font-style: normal;
   font-weight: 600;
@@ -774,7 +821,7 @@ export default {
   margin-bottom: var(--dl-space-space-halfunit);
   flex-direction: column;
 }
-.space-text46 {
+.space-text53 {
   color: var(--dl-color-secondary-500);
   font-style: normal;
   font-weight: 600;
@@ -794,7 +841,7 @@ export default {
   margin-bottom: var(--dl-space-space-halfunit);
   flex-direction: column;
 }
-.space-text48 {
+.space-text55 {
   color: var(--dl-color-secondary-500);
   font-style: normal;
   font-weight: 600;
@@ -834,12 +881,12 @@ export default {
 .space-component1 {
   text-decoration: none;
 }
-@media (max-width: 991px) {
+@media(max-width: 991px) {
   .space-gallery {
     max-width: 960px;
   }
 }
-@media (max-width: 767px) {
+@media(max-width: 767px) {
   .space-image1 {
     height: 370px;
   }
@@ -860,7 +907,7 @@ export default {
     align-self: flex-end;
   }
 }
-@media (max-width: 479px) {
+@media(max-width: 479px) {
   .space-gallery {
     flex-wrap: wrap;
     align-items: center;
@@ -921,23 +968,23 @@ export default {
   .space-text17 {
     height: 100%;
   }
-  .space-text33 {
+  .space-text40 {
     padding-top: var(--dl-space-space-halfunit);
     padding-bottom: var(--dl-space-space-halfunit);
   }
-  .space-text35 {
+  .space-text42 {
     padding-top: var(--dl-space-space-halfunit);
     padding-bottom: var(--dl-space-space-halfunit);
   }
-  .space-text37 {
+  .space-text44 {
     padding-top: var(--dl-space-space-halfunit);
     padding-bottom: var(--dl-space-space-halfunit);
   }
-  .space-text39 {
+  .space-text46 {
     padding-top: var(--dl-space-space-halfunit);
     padding-bottom: var(--dl-space-space-halfunit);
   }
-  .space-text41 {
+  .space-text48 {
     padding-top: var(--dl-space-space-halfunit);
     padding-bottom: var(--dl-space-space-halfunit);
   }

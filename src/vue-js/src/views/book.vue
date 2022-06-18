@@ -7,11 +7,11 @@
       <div class="book-container01">
         <div class="book-container02">
           <div class="book-container03">
-            <router-link to="/space" class="book-navlink">
+            <button @click="$router.go(-1)" class="book-navlink">
               <svg viewBox="0 0 1024 1024" class="book-icon">
                 <path d="M658 708l-60 60-256-256 256-256 60 60-196 196z"></path>
               </svg>
-            </router-link>
+            </button>
             <h1 class="book-text">
               <span>
                 Booking at
@@ -29,8 +29,8 @@
                 <h3 class="book-text04">
                   <span class="book-text05">Dates</span>
                 </h3>
-                <span>Checkin at {{ checkin }}</span>
-                <span>Checkout at {{ checkout }}</span>
+                <span>From <b>{{ checkin }}</b></span>
+                <span>to <b>{{ checkout }}</b></span>
               </div>
               <div class="book-container07">
                 <h3 class="book-text07">
@@ -52,7 +52,7 @@
             </h2>
             <div class="book-container10">
               <div class="book-container11">
-                <span class="book-text16">{{ price }} EUR</span>
+                <span class="book-text16">EUR {{ price }}</span>
                 <select class="book-select">
                   <option value="Option 1">Google Pay</option>
                   <option value="Option 2">Apple Pay</option>
@@ -110,6 +110,7 @@ export default {
       name: "",
       checkin: "",
       checkout: "",
+      officetype: "",
       office: "",
       teamsize: "",
       pricetable: [],
@@ -118,15 +119,25 @@ export default {
     };
   },
 
+  methods: {
+    calculatePrice() {
+      var chi = Date.parse(this.checkin);
+      var cho = Date.parse(this.checkout);
+      return Math.ceil((cho - chi)/(1000*60*60*24))
+    },
+  },  
+
   beforeMount() {
     const x = new URLSearchParams(window.location.search);
     this.id = window.location.pathname.split("/").pop();
     this.name = x.get("name");
     this.checkin = x.get("checkin");
     this.checkout = x.get("checkout");
+    this.officetype = x.get("officetype");
     this.office = x.get("office");
     this.name = x.get("name");
     this.teamsize = x.get("teamsize");
+    this.price = this.calculatePrice();
   },
 
   metaInfo: {
