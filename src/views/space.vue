@@ -109,8 +109,7 @@
                 </div>
                 <div
                   class="space-row-1"
-                  v-for="item in priceTable.find((x) => x.id == selectedOffice)
-                    .list"
+                  v-for="item in priceTable.find((x) => x.id == selectedOffice).list"
                   :key="item.id"
                 >
                   <span class="space-text35">{{ item.people }}</span>
@@ -206,6 +205,8 @@
 import HeaderLogged from "../components/header-logged";
 import PrimaryBlueButton from "../components/primary-blue-button";
 import AppFooter from "../components/footer";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../fb";
 
 export default {
   name: "Space",
@@ -226,7 +227,7 @@ export default {
       location: "",
       accessHours: null,
       priceTable: [],
-      selectedOffice: 0,
+      selectedOffice: "",
       amenities: [],
       checkin: "",
       checkout: "",
@@ -250,23 +251,21 @@ export default {
   },
 
   beforeMount() {
-    fetch(
-      "http://localhost:3000/spaces/" +
-        window.location.pathname.split("/").pop()
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        this.id = window.location.pathname.split("/").pop();
+    this.id = window.location.pathname.split("/").pop()
+    getDoc(doc(db, "spaces", this.id))
+      .then((querySnapshot) => {
+        var data = querySnapshot.data()
         this.name = data.name;
         this.rating = data.rating;
         this.nReview = data.nReview;
-        this.description = data.description;
         this.location = data.location;
         this.accessHours = data.accessHours;
-        this.priceTable = data.priceTable;
-        this.selectedOffice = this.priceTable[0].id;
-        this.amenities = data.amenities;
-      });
+        this.priceTable = data.priceTable
+        this.amenities = data.amenities
+        this.description = data.description
+        this.selectedOffice = this.priceTable[0].id
+        console.log(this.amenities)
+      })
   },
 
   metaInfo: {
@@ -678,7 +677,6 @@ export default {
 }
 .space-text33 {
   color: var(--dl-color-secondary-500);
-  width: 100%;
   font-size: 1rem;
   text-align: center;
   margin-left: var(--dl-space-space-halfunit);
