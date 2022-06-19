@@ -1,4 +1,4 @@
 
 *.docx#
-src/vue-js/package-lock.json
-src/vue-js/node_modules/
+package-lock.json
+node_modules/
