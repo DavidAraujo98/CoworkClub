@@ -13,10 +13,7 @@
               </svg>
             </button>
             <h1 class="book-text">
-              <span>
-                Booking at
-                <span v-html="raw7qs3"></span>
-              </span>
+              <span> Booking at </span>
               <span class="book-text02">{{ name }}</span>
             </h1>
           </div>
@@ -29,8 +26,12 @@
                 <h3 class="book-text04">
                   <span class="book-text05">Dates</span>
                 </h3>
-                <span>From <b>{{ checkin }}</b></span>
-                <span>to <b>{{ checkout }}</b></span>
+                <span
+                  >From <b>{{ checkin }}</b></span
+                >
+                <span
+                  >to <b>{{ checkout }}</b></span
+                >
               </div>
               <div class="book-container07">
                 <h3 class="book-text07">
@@ -81,6 +82,7 @@
           <primary-pink-button
             button="Confirm Booking !"
             rootClassName="primary-pink-button-root-class-name3"
+            @pushed="confirmBook"
           ></primary-pink-button>
         </div>
       </div>
@@ -96,6 +98,8 @@
 <script>
 import HeaderLogged from "../components/header-logged";
 import PrimaryPinkButton from "../components/primary-pink-button";
+import moment from "moment";
+require("../../public/moment-precise-range");
 
 export default {
   name: "Book",
@@ -115,17 +119,33 @@ export default {
       teamsize: "",
       pricetable: [],
       price: "",
-      raw7qs3: " ",
     };
   },
 
   methods: {
     calculatePrice() {
-      var chi = Date.parse(this.checkin);
-      var cho = Date.parse(this.checkout);
-      return Math.ceil((cho - chi)/(1000*60*60*24))
+      var chi = moment(Date.parse(this.checkin));
+      var cho = moment(Date.parse(this.checkout));
+      var duration = moment.preciseDiff(chi, cho, true);
+      var cost = duration.months * parseInt(this.priceTable[2].price);
+      cost += parseInt(duration.days / 7) * parseInt(this.priceTable[1].price);
+      cost += parseInt(duration.days % 7) * parseInt(this.priceTable[0].price);
+      return cost;
     },
-  },  
+
+    confirmBook() {
+      fetch("http://localhost:3000/book/" + this.id, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: "JSON.stringify(this.$data)",
+      })
+        .then((response) => response.text())
+        .then((result) => console.log(result));
+    },
+  },
 
   beforeMount() {
     const x = new URLSearchParams(window.location.search);
@@ -137,7 +157,14 @@ export default {
     this.office = x.get("office");
     this.name = x.get("name");
     this.teamsize = x.get("teamsize");
-    this.price = this.calculatePrice();
+    fetch("http://localhost:3000/spaces/" + this.id)
+      .then((res) => res.json())
+      .then((data) => {
+        this.priceTable = data.priceTable.filter(
+          (x) => x.id == this.officetype
+        )[0].list;
+        this.price = this.calculatePrice();
+      });
   },
 
   metaInfo: {

@@ -1,6 +1,8 @@
 <template>
   <div class="space-container">
-    <header-logged rootClassName="header-logged-root-class-name1"></header-logged>
+    <header-logged
+      rootClassName="header-logged-root-class-name1"
+    ></header-logged>
     <div class="space-gallery">
       <div class="space-row">
         <img
@@ -40,7 +42,9 @@
               <h1 class="space-text headingOne">{{ name }}</h1>
               <div class="space-container2">
                 <h1 class="space-text01 headingOne">{{ rating }} / 5</h1>
-                <span class="space-text02"><span>{{ nReview }} reviews</span></span>
+                <span class="space-text02"
+                  ><span>{{ nReview }} reviews</span></span
+                >
               </div>
             </div>
             <div class="space-container3">
@@ -84,15 +88,15 @@
             <h2 class="space-text18"><span>Pricing</span></h2>
             <div class="space-table">
               <div class="space-types">
-                <button 
+                <button
                   class="space-button button"
                   v-for="option in priceTable"
                   :key="option.id"
                   v-bind:value="option.id"
-                  @click="selectedOffice=option.id"
+                  @click="selectedOffice = option.id"
                 >
                   <span class="space-text20">
-                    <span>{{option.name}}</span>
+                    <span>{{ option.name }}</span>
                   </span>
                 </button>
               </div>
@@ -103,10 +107,11 @@
                   <span class="space-text33">Price</span>
                   <span class="space-text34">Access Hours</span>
                 </div>
-                <div 
-                    class="space-row-1"
-                    v-for="item in priceTable.find(x => x.id == selectedOffice).list"
-                    :key="item.id"
+                <div
+                  class="space-row-1"
+                  v-for="item in priceTable.find((x) => x.id == selectedOffice)
+                    .list"
+                  :key="item.id"
                 >
                   <span class="space-text35">{{ item.people }}</span>
                   <span class="space-text36">{{ item.duration }}</span>
@@ -129,7 +134,9 @@
           </div>
         </div>
         <div class="space-right">
-          <form class="space-form">
+          <form class="space-form"
+            @change="formChange"
+          >
             <h2 class="space-text50">Booking</h2>
             <div class="space-checkin">
               <label class="space-text51"><span>Checkin</span></label>
@@ -138,6 +145,7 @@
                 placeholder="placeholder"
                 class="space-textinput input"
                 v-model="checkin"
+                required
               />
             </div>
             <div class="space-checkout">
@@ -147,6 +155,7 @@
                 placeholder="placeholder"
                 class="space-textinput1 input"
                 v-model="checkout"
+                required
               />
             </div>
             <div class="space-office-type">
@@ -173,10 +182,11 @@
                 placeholder="Number of elements"
                 class="space-textinput2 input"
                 v-model="teamsize"
+                required
               />
             </div>
-            <router-link 
-                :to="`book/${id}?name=${name}&checkin=${checkin}&checkout=${checkout}&officetype=${officetype}&office=${office}&teamsize=${teamsize}`"
+            <router-link
+              :to="bookURL"
             >
               <primary-blue-button
                 button="Book Now"
@@ -198,13 +208,13 @@ import PrimaryBlueButton from "../components/primary-blue-button";
 import AppFooter from "../components/footer";
 
 export default {
-  name: 'Space',
+  name: "Space",
   props: {},
   components: {
     HeaderLogged,
     PrimaryBlueButton,
     AppFooter,
-    },
+  },
 
   data() {
     return {
@@ -223,6 +233,7 @@ export default {
       office: "",
       officetype: "",
       teamsize: 1,
+      bookURL: ""
     };
   },
 
@@ -232,6 +243,10 @@ export default {
         (x) => x.id == this.officetype
       )[0].name;
     },
+    formChange() {
+      if(this.checkin != "" && this.checkout != "" && this.officetype != "" && (Date.parse(this.checkout) > Date.parse(this.checkin)))
+        this.bookURL = `book/${this.id}?name=${this.name}&checkin=${this.checkin}&checkout=${this.checkout}&officetype=${this.officetype}&office=${this.office}&teamsize=${this.teamsize}`
+    }
   },
 
   beforeMount() {
@@ -252,8 +267,6 @@ export default {
         this.selectedOffice = this.priceTable[0].id;
         this.amenities = data.amenities;
       });
-
-    
   },
 
   metaInfo: {
@@ -265,7 +278,7 @@ export default {
       },
     ],
   },
-}
+};
 </script>
 
 <style scoped>
@@ -388,7 +401,7 @@ export default {
 }
 .space-text {
   text-align: center;
-  background-image: linear-gradient(310deg,#7928ca,#ff0080);
+  background-image: linear-gradient(310deg, #7928ca, #ff0080);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -881,12 +894,12 @@ export default {
 .space-component1 {
   text-decoration: none;
 }
-@media(max-width: 991px) {
+@media (max-width: 991px) {
   .space-gallery {
     max-width: 960px;
   }
 }
-@media(max-width: 767px) {
+@media (max-width: 767px) {
   .space-image1 {
     height: 370px;
   }
@@ -907,7 +920,7 @@ export default {
     align-self: flex-end;
   }
 }
-@media(max-width: 479px) {
+@media (max-width: 479px) {
   .space-gallery {
     flex-wrap: wrap;
     align-items: center;

@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@syncfusion/ej2-vue-dropdowns": "^20.1.60",
+    "moment": "^2.29.3",
     "vue": "^2.6.7",
     "vue-meta": "^2.2.1",
     "vue-router": "^3.0.2"

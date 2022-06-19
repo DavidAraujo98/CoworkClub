@@ -1,8 +1,8 @@
 <template>
   <div class="primary-pink-button-container" v-bind:class="rootClassName">
-    <button
-      @click="this.$emit('search')"
+    <button 
       class="primary-pink-button-button button buttonSmall"
+      @click="pushed"
     >
       {{ button }}
     </button>
@@ -11,21 +11,25 @@
 
 <script>
 export default {
-  name: 'PrimaryPinkButton',
+  name: "PrimaryPinkButton",
+
+  methods: {
+    pushed() {
+      this.$emit('pushed')
+    }
+  },
+
   props: {
-    search: {
-      default: () => {},
-    },
     rootClassName: String,
-    'search()': {
+    "search()": {
       default: () => {},
     },
     button: {
       type: String,
-      default: 'Button',
+      default: "Button",
     },
   },
-}
+};
 </script>
 
 <style scoped>
@@ -36,9 +40,9 @@ export default {
 .primary-pink-button-button {
   color: var(--dl-color-gray-white);
   outline: none;
-  background:  linear-gradient( 310deg ,#7928ca,#ff0080);
+  background: linear-gradient(310deg, #7928ca, #ff0080);
   box-shadow: 0 4px 7px -1px rgb(0 0 0 / 11%), 0 2px 4px -1px rgb(0 0 0 / 7%);
-  transition: all .15s ease-in;
+  transition: all 0.15s ease-in;
   padding-top: var(--dl-space-space-triplequarterunit);
   border-width: 0px;
   padding-left: var(--dl-space-space-unitandahalfunit);

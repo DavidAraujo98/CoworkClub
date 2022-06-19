@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+app.use(express.json());
+
 app.get("/spaces", (req, res) => {
     /*  QUERY types
     
@@ -160,7 +162,10 @@ app.get("/spaces/:name", (req, res) => {
     res.send(response);
 });
 
-app.post("/book/:name", (req, res) => {});
+app.post("/book/:name", (req, res) => {
+    console.log(req.body);
+    res.send(req.body);
+});
 
 app.get("/profile/:name", (req, res) => {
     /*  Route path
