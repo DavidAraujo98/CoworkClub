@@ -18,20 +18,20 @@
         <div v-for="item in space_list" :key="item.id">
           <space-card
             v-if="
-              item.price >= min_price &&
-              item.price <= max_price &&
-              ((parking && item.parking) || !parking) &&
+              item.data().price >= min_price &&
+              item.data().price <= max_price &&
+              ((parking && item.data().parking) || !parking) &&
               (search == undefined ||
-                item.name.includes(search) ||
-                item.location.includes(search))
+                item.data().name.includes(search) ||
+                item.data().location.includes(search))
             "
-            :name="item.name"
+            :name="item.data().name"
             :id="item.id"
-            :price="`${item.price}€/day`"
+            :price="`${item.data().price}€/day`"
             :title="item.id"
-            :rating="item.rating"
-            :image_src="item.thumbnail"
-            :description="item.description"
+            :rating="item.data().rating"
+            :image_src="item.data().thumbnail"
+            :description="item.data().description"
             rootClassName="space-card-root-class-name1"
           ></space-card>
         </div>
@@ -46,6 +46,9 @@ import HeaderLogged from "../components/header-logged";
 import AppToolbar from "../components/toolbar";
 import SpaceCard from "../components/space-card";
 import AppFooter from "../components/footer";
+import { collection, getDocs } from "firebase/firestore";
+import { ref } from "firebase/storage";
+import { db, st } from "../fb";
 
 export default {
   name: "Spaces",
@@ -96,9 +99,11 @@ export default {
 
   beforeMount() {
     this.search = new URLSearchParams(window.location.search).get("search");
-    fetch("http://localhost:3000/spaces" + window.location.search)
-      .then((res) => res.json())
-      .then((data) => (this.space_list = data));
+    const image = ref(st, 'spaces-thumbnails');
+    console.log(image);
+    getDocs(collection(db, "spaces")).then(
+      (querySnapshot) => (this.space_list = querySnapshot.docs)
+    );
   },
 
   metaInfo: {
