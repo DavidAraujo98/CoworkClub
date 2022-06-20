@@ -99,6 +99,8 @@
 import HeaderLogged from "../components/header-logged";
 import PrimaryPinkButton from "../components/primary-pink-button";
 import moment from "moment";
+import { doc, getDoc, collection, addDoc, setDoc } from "firebase/firestore";
+import { db, auth } from "../fb";
 require("../../public/moment-precise-range");
 
 export default {
@@ -117,8 +119,8 @@ export default {
       officetype: "",
       office: "",
       teamsize: "",
-      pricetable: [],
       price: "",
+      priceTable: ""
     };
   },
 
@@ -134,16 +136,21 @@ export default {
     },
 
     confirmBook() {
-      fetch("http://localhost:3000/book/" + this.id, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: "JSON.stringify(this.$data)",
-      })
-        .then((response) => response.text())
-        .then((result) => console.log(result));
+      addDoc(collection(db, "book"), {
+        checkin: this.checkin,
+        checkout: this.checkout,
+        office_type: this.officetype,
+        price: this.price,
+        space_id: this.id,
+        //user_id: auth.currentUser.uid,
+      }).then((ref) => {
+        /*
+        Will only work when user is signed in, same as previous comment
+        setDoc(doc(db, "users", auth.currentUser.uid), {
+          booking: [getDoc("book/"+ref.id)]
+        }, {merge: true})
+        */
+      });
     },
   },
 
@@ -155,16 +162,15 @@ export default {
     this.checkout = x.get("checkout");
     this.officetype = x.get("officetype");
     this.office = x.get("office");
-    this.name = x.get("name");
     this.teamsize = x.get("teamsize");
-    fetch("http://localhost:3000/spaces/" + this.id)
-      .then((res) => res.json())
-      .then((data) => {
+    getDoc(doc(db, "spaces", this.id))
+      .then((querySnapshot) => {
+        var data = querySnapshot.data()
         this.priceTable = data.priceTable.filter(
           (x) => x.id == this.officetype
         )[0].list;
         this.price = this.calculatePrice();
-      });
+      })
   },
 
   metaInfo: {

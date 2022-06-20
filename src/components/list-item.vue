@@ -1,7 +1,14 @@
 <template>
-  <div class="list-item-container">
+  <div class="list-item-container" v-bind:class="rootClassName">
     <h5 class="list-item-text headingThree">{{ title }}</h5>
-    <span>{{ description }}</span>
+    <div class="list-item-container1">
+      <div class="list-item-container2">
+        <span class="list-item-text1">{{ checkin }}</span>
+        <span class="list-item-text2"><span>to</span></span>
+        <span class="list-item-text4">{{ checkout }}</span>
+      </div>
+      <span class="list-item-text5">{{ office }}</span>
+    </div>
   </div>
 </template>
 
@@ -9,14 +16,22 @@
 export default {
   name: 'ListItem',
   props: {
-    description: {
+    checkin: {
       type: String,
-      default:
-        'Gain access to the demographics, psychographics, and location of unique people who are interested and talk about your brand.',
+      default: '12 June',
     },
     title: {
       type: String,
       default: '1. Listen to Social Conversations',
+    },
+    rootClassName: String,
+    office: {
+      type: String,
+      default: 'Hot Desk',
+    },
+    checkout: {
+      type: String,
+      default: '15 June',
     },
   },
 }
@@ -25,14 +40,66 @@ export default {
 <style scoped>
 .list-item-container {
   flex: 0 0 auto;
+  margin: var(--dl-space-space-unit);
   display: flex;
   padding: 1rem;
-  max-width: 500px;
+  max-width: auto;
+  min-width: 300px;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
   align-items: flex-start;
+  border-radius: var(--dl-radius-radius-radius40);
   flex-direction: column;
 }
 .list-item-text {
-  color: var(--dl-color-secondary-600);
+  color: var(--dl-color-secondary-700);
   margin-bottom: var(--dl-space-space-halfunit);
+}
+.list-item-container1 {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.list-item-container2 {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.list-item-text1 {
+  color: var(--dl-color-secondary-600);
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+}
+.list-item-text2 {
+  margin-top: 0px;
+  margin-left: var(--dl-space-space-halfunit);
+  margin-right: var(--dl-space-space-halfunit);
+  margin-bottom: 0px;
+}
+.list-item-text4 {
+  color: var(--dl-color-secondary-600);
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px;
+}
+.list-item-text5 {
+  color: var(--dl-color-secondary-600);
+  margin-top: 0px;
+  margin-left: var(--dl-space-space-halfunit);
+  margin-right: var(--dl-space-space-halfunit);
+  margin-bottom: 0px;
+}
+
+@media(max-width: 479px) {
+  .list-item-root-class-name {
+    max-width: 100%;
+  }
 }
 </style>

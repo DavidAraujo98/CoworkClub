@@ -100,7 +100,6 @@ export default {
   beforeMount() {
     this.search = new URLSearchParams(window.location.search).get("search");
     const image = ref(st, 'spaces-thumbnails');
-    console.log(image);
     getDocs(collection(db, "spaces")).then(
       (querySnapshot) => (this.space_list = querySnapshot.docs)
     );

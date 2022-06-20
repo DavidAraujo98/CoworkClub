@@ -1,73 +1,89 @@
 <template>
   <div class="profile-container">
-    <header-logged rootClassName="header-logged-root-class-name3"></header-logged>
+    <header-logged
+      rootClassName="header-logged-root-class-name3"
+    ></header-logged>
     <div class="profile-hero">
-      <div class="profile-container01">
-        <img
-          alt="image"
-          src="https://play.teleporthq.io/static/svg/default-img.svg"
-          class="profile-image"
-        />
-        <div class="profile-container02">
-          <h1 class="profile-text">John Doe</h1>
-          <div class="profile-container03">
+      <div class="profile-head">
+        <h1 class="profile-text">User name</h1>
+        <div class="profile-container01">
+          <div class="profile-container02">
+            <div class="profile-container03">
+              <p class="profile-text01">
+                <span>Job title</span>
+              </p>
+              <p class="profile-text04"><span>Hot Desk</span></p>
+            </div>
             <div class="profile-container04">
-              <h3 class="profile-text01">Job type</h3>
-              <span>Software Developer</span>
+              <p class="profile-text06"><span>Preferred office:</span></p>
+              <p class="profile-text08"><span>Hot Desk</span></p>
             </div>
             <div class="profile-container05">
-              <h3 class="profile-text03"><span>Preferred office type</span></h3>
-              <span>Hot Desk</span>
+              <p class="profile-text10"><span>Favorite space:</span></p>
+              <p class="profile-text12"><span>AveiroHub</span></p>
+            </div>
+            <div class="profile-container06">
+              <p class="profile-text14"><span>Last visited space:</span></p>
+              <p class="profile-text16"><span>Ocupa Aveiro</span></p>
+            </div>
+            <div class="profile-container07">
+              <p class="profile-text18"><span>Visited spaces:</span></p>
+              <p class="profile-text20"><span>5</span></p>
             </div>
           </div>
         </div>
       </div>
-      <div class="profile-modal">
-        <h2 class="profile-text06"><span>Personal details</span></h2>
-        <div class="profile-table">
-          <div class="profile-container06">
-            <div class="profile-container07">
-              <h3>Name</h3>
-              <span><span>John William Doe</span></span>
+      <div class="profile-details">
+        <form class="profile-form">
+          <div class="profile-column">
+            <div class="profile-title">
+              <h2 class="profile-text22">
+                <span>Personal details</span>
+                <span></span>
+              </h2>
+              <svg viewBox="0 0 1024 1024" class="profile-icon">
+                <path
+                  d="M896 293.504l-165.504-165.504c-12.501-12.501-28.928-18.731-45.269-18.731-16.384 0-32.725 6.229-45.227 18.731l-466.731 466.731c-12.501 12.501-23.808 31.019-32 50.688-8.192 19.755-13.269 40.917-13.269 58.581v192h192c17.664 0 38.741-5.077 58.496-13.269 19.755-8.192 38.229-19.499 50.731-32l466.773-466.731c12.501-12.501 18.731-28.928 18.731-45.269 0-16.384-6.229-32.725-18.731-45.227zM246.101 642.603l353.835-353.835 52.565 52.565-353.835 353.835-52.565-52.565zM320 810.667h-64l-42.667-42.667v-64c0-3.285 1.408-13.013 6.741-25.813 0.427-0.853 126.592 125.355 126.592 125.355-13.739 5.717-23.381 7.125-26.667 7.125zM381.397 777.899l-52.565-52.565 353.835-353.835 52.565 52.565-353.835 353.835zM765.397 393.899l-135.339-135.339 55.168-55.168 135.253 135.339-55.083 55.168z"
+                ></path>
+              </svg>
             </div>
-            <svg viewBox="0 0 865.7188571428571 1024" class="profile-icon">
-              <path
-                d="M207.429 877.714l52-52-134.286-134.286-52 52v61.143h73.143v73.143h61.143zM506.286 347.429c0-7.429-5.143-12.571-12.571-12.571-3.429 0-6.857 1.143-9.714 4l-309.714 309.714c-2.857 2.857-4 6.286-4 9.714 0 7.429 5.143 12.571 12.571 12.571 3.429 0 6.857-1.143 9.714-4l309.714-309.714c2.857-2.857 4-6.286 4-9.714zM475.429 237.714l237.714 237.714-475.429 475.429h-237.714v-237.714zM865.714 292.571c0 19.429-8 38.286-21.143 51.429l-94.857 94.857-237.714-237.714 94.857-94.286c13.143-13.714 32-21.714 51.429-21.714s38.286 8 52 21.714l134.286 133.714c13.143 13.714 21.143 32.571 21.143 52z"
-              ></path>
-            </svg>
+            <div class="profile-row">
+              <div class="profile-container08">
+                <label>Username</label>
+                <input
+                  type="text"
+                  placeholder="John Doe"
+                  class="profile-textinput input"
+                />
+              </div>
+              <div class="profile-container09">
+                <label>Email</label>
+                <input
+                  type="text"
+                  placeholder="johndoe@gmail.com"
+                  class="profile-textinput1 input"
+                />
+              </div>
+              <div class="profile-container10">
+                <label>Password</label>
+                <input
+                  type="text"
+                  placeholder="●●●●●●●●●●●"
+                  class="profile-textinput2 input"
+                />
+              </div>
+            </div>
           </div>
-          <div class="profile-container08">
-            <div class="profile-container09">
-              <h3>Email</h3>
-              <span><span>john_doe@email.com</span></span>
-            </div>
-            <svg viewBox="0 0 865.7188571428571 1024" class="profile-icon2">
-              <path
-                d="M207.429 877.714l52-52-134.286-134.286-52 52v61.143h73.143v73.143h61.143zM506.286 347.429c0-7.429-5.143-12.571-12.571-12.571-3.429 0-6.857 1.143-9.714 4l-309.714 309.714c-2.857 2.857-4 6.286-4 9.714 0 7.429 5.143 12.571 12.571 12.571 3.429 0 6.857-1.143 9.714-4l309.714-309.714c2.857-2.857 4-6.286 4-9.714zM475.429 237.714l237.714 237.714-475.429 475.429h-237.714v-237.714zM865.714 292.571c0 19.429-8 38.286-21.143 51.429l-94.857 94.857-237.714-237.714 94.857-94.286c13.143-13.714 32-21.714 51.429-21.714s38.286 8 52 21.714l134.286 133.714c13.143 13.714 21.143 32.571 21.143 52z"
-              ></path>
-            </svg>
-          </div>
-          <div class="profile-container10">
-            <div class="profile-container11">
-              <h3>Password</h3>
-              <span><span>●●●●●●●●●●●●●</span></span>
-            </div>
-            <svg viewBox="0 0 865.7188571428571 1024" class="profile-icon4">
-              <path
-                d="M207.429 877.714l52-52-134.286-134.286-52 52v61.143h73.143v73.143h61.143zM506.286 347.429c0-7.429-5.143-12.571-12.571-12.571-3.429 0-6.857 1.143-9.714 4l-309.714 309.714c-2.857 2.857-4 6.286-4 9.714 0 7.429 5.143 12.571 12.571 12.571 3.429 0 6.857-1.143 9.714-4l309.714-309.714c2.857-2.857 4-6.286 4-9.714zM475.429 237.714l237.714 237.714-475.429 475.429h-237.714v-237.714zM865.714 292.571c0 19.429-8 38.286-21.143 51.429l-94.857 94.857-237.714-237.714 94.857-94.286c13.143-13.714 32-21.714 51.429-21.714s38.286 8 52 21.714l134.286 133.714c13.143 13.714 21.143 32.571 21.143 52z"
-              ></path>
-            </svg>
-          </div>
-          <div class="profile-container12">
-            <div class="profile-container13">
-              <h3>Address</h3>
-              <span><span>Rua 1 de Janeiro, nº 11, Coimbra, Portugal</span></span>
-            </div>
-            <svg viewBox="0 0 865.7188571428571 1024" class="profile-icon6">
-              <path
-                d="M207.429 877.714l52-52-134.286-134.286-52 52v61.143h73.143v73.143h61.143zM506.286 347.429c0-7.429-5.143-12.571-12.571-12.571-3.429 0-6.857 1.143-9.714 4l-309.714 309.714c-2.857 2.857-4 6.286-4 9.714 0 7.429 5.143 12.571 12.571 12.571 3.429 0 6.857-1.143 9.714-4l309.714-309.714c2.857-2.857 4-6.286 4-9.714zM475.429 237.714l237.714 237.714-475.429 475.429h-237.714v-237.714zM865.714 292.571c0 19.429-8 38.286-21.143 51.429l-94.857 94.857-237.714-237.714 94.857-94.286c13.143-13.714 32-21.714 51.429-21.714s38.286 8 52 21.714l134.286 133.714c13.143 13.714 21.143 32.571 21.143 52z"
-              ></path>
-            </svg>
+        </form>
+      </div>
+      <div class="profile-calendar">
+        <div class="profile-column1">
+          <h2 class="profile-text28"><span>Bookings</span></h2>
+          <div class="profile-row1">
+            <list-item
+              rootClassName="list-item-root-class-name"
+              title="Aveiro Hub"
+            ></list-item>
           </div>
         </div>
       </div>
@@ -77,25 +93,21 @@
 </template>
 
 <script>
-import HeaderLogged from '../components/header-logged'
-import AppFooter from '../components/footer'
+import HeaderLogged from "../components/header-logged";
+import ListItem from "../components/list-item";
+import AppFooter from "../components/footer";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../fb";
 
 export default {
-  name: 'Profile',
+  name: "Profile",
+  props: {},
   components: {
     HeaderLogged,
+    ListItem,
     AppFooter,
   },
-  metaInfo: {
-    title: 'Profile - CoworkClub',
-    meta: [
-      {
-        property: 'og:title',
-        content: 'Profile - CoworkClub',
-      },
-    ],
-  },
-}
+};
 </script>
 
 <style scoped>
@@ -119,177 +131,313 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
 }
-.profile-container01 {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  flex-direction: row;
-  justify-content: flex-start;
-}
-.profile-image {
-  width: 200px;
-  height: 100%;
-  object-fit: cover;
-  margin-right: var(--dl-space-space-doubleunit);
-}
-.profile-container02 {
-  height: auto;
+.profile-head {
+  width: 100%;
   display: flex;
   align-items: flex-start;
+  margin-bottom: var(--dl-space-space-doubleunit);
   flex-direction: column;
   justify-content: flex-start;
 }
 .profile-text {
-  color: var(--dl-color-primary-500);
-  font-size: 3em;
+  color: var(--dl-color-primary-700);
+  font-size: 4em;
+}
+.profile-container01 {
+  flex: 0 0 auto;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.profile-container02 {
+  flex: 0 0 auto;
+  width: 100%;
+  height: auto;
+  display: flex;
+  padding: var(--dl-space-space-halfunit);
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-around;
 }
 .profile-container03 {
+  display: flex;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-top: var(--dl-space-space-halfunit);
+  align-items: center;
+  margin-left: var(--dl-space-space-unitandahalfunit);
+  padding-top: var(--dl-space-space-halfunit);
+  margin-right: var(--dl-space-space-unitandahalfunit);
+  padding-left: var(--dl-space-space-unit);
+  border-radius: var(--dl-radius-radius-radius40);
+  margin-bottom: var(--dl-space-space-halfunit);
+  padding-right: var(--dl-space-space-unit);
+  padding-bottom: var(--dl-space-space-halfunit);
+  justify-content: flex-start;
+}
+.profile-text01 {
+  color: var(--dl-color-secondary-200);
+  margin-right: var(--dl-space-space-halfunit);
+}
+.profile-text04 {
+  color: var(--dl-color-secondary-600);
+}
+.profile-container04 {
+  display: flex;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-top: var(--dl-space-space-halfunit);
+  align-items: center;
+  margin-left: var(--dl-space-space-unitandahalfunit);
+  padding-top: var(--dl-space-space-halfunit);
+  margin-right: var(--dl-space-space-unitandahalfunit);
+  padding-left: var(--dl-space-space-unit);
+  border-radius: var(--dl-radius-radius-radius40);
+  margin-bottom: var(--dl-space-space-halfunit);
+  padding-right: var(--dl-space-space-unit);
+  padding-bottom: var(--dl-space-space-halfunit);
+  justify-content: flex-start;
+}
+.profile-text06 {
+  color: var(--dl-color-secondary-200);
+  margin-right: var(--dl-space-space-halfunit);
+}
+.profile-text08 {
+  color: var(--dl-color-secondary-600);
+}
+.profile-container05 {
+  display: flex;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-top: var(--dl-space-space-halfunit);
+  align-items: center;
+  margin-left: var(--dl-space-space-unitandahalfunit);
+  padding-top: var(--dl-space-space-halfunit);
+  margin-right: var(--dl-space-space-unitandahalfunit);
+  padding-left: var(--dl-space-space-unit);
+  border-radius: var(--dl-radius-radius-radius40);
+  margin-bottom: var(--dl-space-space-halfunit);
+  padding-right: var(--dl-space-space-unit);
+  padding-bottom: var(--dl-space-space-halfunit);
+  justify-content: flex-start;
+}
+.profile-text10 {
+  color: var(--dl-color-secondary-200);
+  margin-right: var(--dl-space-space-halfunit);
+}
+.profile-text12 {
+  color: var(--dl-color-secondary-600);
+}
+.profile-container06 {
+  display: flex;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-top: var(--dl-space-space-halfunit);
+  align-items: center;
+  margin-left: var(--dl-space-space-unitandahalfunit);
+  padding-top: var(--dl-space-space-halfunit);
+  margin-right: var(--dl-space-space-unitandahalfunit);
+  padding-left: var(--dl-space-space-unit);
+  border-radius: var(--dl-radius-radius-radius40);
+  margin-bottom: var(--dl-space-space-halfunit);
+  padding-right: var(--dl-space-space-unit);
+  padding-bottom: var(--dl-space-space-halfunit);
+  justify-content: flex-start;
+}
+.profile-text14 {
+  color: var(--dl-color-secondary-200);
+  margin-right: var(--dl-space-space-halfunit);
+}
+.profile-text16 {
+  color: var(--dl-color-secondary-600);
+}
+.profile-container07 {
+  display: flex;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  margin-top: var(--dl-space-space-halfunit);
+  align-items: center;
+  margin-left: var(--dl-space-space-unitandahalfunit);
+  padding-top: var(--dl-space-space-halfunit);
+  margin-right: var(--dl-space-space-unitandahalfunit);
+  padding-left: var(--dl-space-space-unit);
+  border-radius: var(--dl-radius-radius-radius40);
+  margin-bottom: var(--dl-space-space-halfunit);
+  padding-right: var(--dl-space-space-unit);
+  padding-bottom: var(--dl-space-space-halfunit);
+  justify-content: flex-start;
+}
+.profile-text18 {
+  color: var(--dl-color-secondary-200);
+  margin-right: var(--dl-space-space-halfunit);
+}
+.profile-text20 {
+  color: var(--dl-color-secondary-600);
+}
+.profile-details {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: var(--dl-space-space-doubleunit);
+  justify-content: space-between;
+}
+.profile-form {
+  width: 100%;
+  height: auto;
+  align-self: flex-start;
+}
+.profile-column {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+.profile-title {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: var(--dl-space-space-halfunit);
+  flex-direction: row;
+  justify-content: space-between;
+}
+.profile-text22 {
+  color: var(--dl-color-primary-100);
+  margin-bottom: 0px;
+}
+.profile-icon {
+  width: 24px;
+  height: 24px;
+  margin-top: var(--dl-space-space-halfunit);
+}
+.profile-row {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.profile-container08 {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: var(--dl-space-space-unit);
+  flex-direction: column;
+}
+.profile-textinput {
+  width: 329px;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  border-color: var(--dl-color-gray-800);
+  border-width: 1px;
+  border-radius: var(--dl-radius-radius-radius40);
+}
+.profile-container09 {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: var(--dl-space-space-unit);
+  flex-direction: column;
+}
+.profile-textinput1 {
+  width: 329px;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  border-color: var(--dl-color-gray-800);
+  border-width: 1px;
+  border-radius: var(--dl-radius-radius-radius40);
+}
+.profile-container10 {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: var(--dl-space-space-unit);
+  flex-direction: column;
+}
+.profile-textinput2 {
+  width: 329px;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  border-color: var(--dl-color-gray-800);
+  border-width: 1px;
+  border-radius: var(--dl-radius-radius-radius40);
+}
+.profile-calendar {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: var(--dl-space-space-doubleunit);
+  justify-content: space-between;
+}
+.profile-column1 {
+  flex: 0 0 auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+.profile-text28 {
+  color: var(--dl-color-primary-100);
+  margin-bottom: 0px;
+}
+.profile-row1 {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   flex-direction: row;
   justify-content: flex-start;
 }
-.profile-container04 {
-  display: flex;
-  align-items: flex-start;
-  margin-right: var(--dl-space-space-doubleunit);
-  flex-direction: column;
-  justify-content: flex-start;
-}
-.profile-text01 {
-  color: var(--dl-color-secondary-500);
-}
-.profile-container05 {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-.profile-text03 {
-  color: var(--dl-color-secondary-500);
-}
-.profile-modal {
-  width: 100%;
-  display: flex;
-  margin-top: var(--dl-space-space-doubleunit);
-  align-items: flex-start;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-.profile-text06 {
-  color: var(--dl-color-secondary-500);
-  width: 100%;
-}
-.profile-table {
-  flex: 0 0 auto;
-  width: 100%;
-  display: flex;
-  box-shadow: 5px 5px 10px 0px #d4d4d4;
-  align-items: flex-start;
-  padding-top: var(--dl-space-space-halfunit);
-  border-color: var(--dl-color-gray-800);
-  border-width: 1px;
-  padding-left: var(--dl-space-space-unit);
-  border-radius: var(--dl-radius-radius-radius40);
-  padding-right: var(--dl-space-space-unit);
-  flex-direction: column;
-  padding-bottom: var(--dl-space-space-halfunit);
-  justify-content: space-between;
-}
-.profile-container06 {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.profile-container07 {
-  display: flex;
-  margin-top: var(--dl-space-space-halfunit);
-  align-items: flex-start;
-  margin-bottom: var(--dl-space-space-halfunit);
-  flex-direction: column;
-  justify-content: space-between;
-}
-.profile-icon {
-  width: 24px;
-  height: 24px;
-}
-.profile-container08 {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.profile-container09 {
-  display: flex;
-  margin-top: var(--dl-space-space-halfunit);
-  align-items: flex-start;
-  margin-bottom: var(--dl-space-space-halfunit);
-  flex-direction: column;
-  justify-content: space-between;
-}
-.profile-icon2 {
-  width: 24px;
-  height: 24px;
-}
-.profile-container10 {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.profile-container11 {
-  display: flex;
-  margin-top: var(--dl-space-space-halfunit);
-  align-items: flex-start;
-  margin-bottom: var(--dl-space-space-halfunit);
-  flex-direction: column;
-  justify-content: space-between;
-}
-.profile-icon4 {
-  width: 24px;
-  height: 24px;
-}
-.profile-container12 {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-}
-.profile-container13 {
-  display: flex;
-  margin-top: var(--dl-space-space-halfunit);
-  align-items: flex-start;
-  margin-bottom: var(--dl-space-space-halfunit);
-  flex-direction: column;
-  justify-content: space-between;
-}
-.profile-icon6 {
-  width: 24px;
-  height: 24px;
-}
-@media(max-width: 991px) {
+@media (max-width: 991px) {
   .profile-hero {
     flex-direction: column;
   }
+  .profile-container03 {
+    margin: var(--dl-space-space-halfunit);
+  }
+  .profile-container04 {
+    margin: var(--dl-space-space-halfunit);
+  }
+  .profile-container05 {
+    margin: var(--dl-space-space-halfunit);
+  }
+  .profile-container06 {
+    margin: var(--dl-space-space-halfunit);
+  }
+  .profile-container07 {
+    margin: var(--dl-space-space-halfunit);
+  }
 }
-@media(max-width: 767px) {
+@media (max-width: 767px) {
   .profile-hero {
     padding-left: 32px;
     padding-right: 32px;
   }
 }
-@media(max-width: 479px) {
+@media (max-width: 479px) {
   .profile-hero {
     padding-top: 32px;
     padding-left: var(--dl-space-space-unit);
     padding-right: var(--dl-space-space-unit);
     padding-bottom: 32px;
+  }
+  .profile-row {
+    justify-content: center;
+  }
+  .profile-textinput {
+    width: 404px;
+  }
+  .profile-textinput1 {
+    width: 404px;
+  }
+  .profile-textinput2 {
+    width: 404px;
+  }
+  .profile-text28 {
+    margin-bottom: var(--dl-space-space-halfunit);
+  }
+  .profile-row1 {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 </style>
