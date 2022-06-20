@@ -1,6 +1,8 @@
 <template>
   <div class="profile-container">
-    <header-logged rootClassName="header-logged-root-class-name3"></header-logged>
+    <header-logged
+      rootClassName="header-logged-root-class-name3"
+    ></header-logged>
     <div class="profile-hero">
       <div class="profile-head">
         <h1 class="profile-text">User name</h1>
@@ -91,19 +93,21 @@
 </template>
 
 <script>
-import HeaderLogged from '../components/header-logged'
-import ListItem from '../components/list-item'
-import AppFooter from '../components/footer'
+import HeaderLogged from "../components/header-logged";
+import ListItem from "../components/list-item";
+import AppFooter from "../components/footer";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../fb";
 
 export default {
-  name: 'Profile',
+  name: "Profile",
   props: {},
   components: {
     HeaderLogged,
     ListItem,
     AppFooter,
   },
-}
+};
 </script>
 
 <style scoped>
@@ -383,7 +387,7 @@ export default {
   flex-direction: row;
   justify-content: flex-start;
 }
-@media(max-width: 991px) {
+@media (max-width: 991px) {
   .profile-hero {
     flex-direction: column;
   }
@@ -403,13 +407,13 @@ export default {
     margin: var(--dl-space-space-halfunit);
   }
 }
-@media(max-width: 767px) {
+@media (max-width: 767px) {
   .profile-hero {
     padding-left: 32px;
     padding-right: 32px;
   }
 }
-@media(max-width: 479px) {
+@media (max-width: 479px) {
   .profile-hero {
     padding-top: 32px;
     padding-left: var(--dl-space-space-unit);
