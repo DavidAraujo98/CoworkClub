@@ -16,15 +16,6 @@
 export default {
   name: 'ListItem',
   props: {
-    checkin: {
-      type: String,
-      default: '12 June',
-    },
-    title: {
-      type: String,
-      default: '1. Listen to Social Conversations',
-    },
-    rootClassName: String,
     office: {
       type: String,
       default: 'Hot Desk',
@@ -32,6 +23,15 @@ export default {
     checkout: {
       type: String,
       default: '15 June',
+    },
+    checkin: {
+      type: String,
+      default: '12 June',
+    },
+    rootClassName: String,
+    title: {
+      type: String,
+      default: '1. Listen to Social Conversations',
     },
   },
 }

@@ -3,8 +3,9 @@
     <button 
       class="primary-pink-button-button button buttonSmall"
       @click="pushed"
+      :type="type"
     >
-      {{ button }}
+      {{ text }}
     </button>
   </div>
 </template>
@@ -12,19 +13,18 @@
 <script>
 export default {
   name: "PrimaryPinkButton",
-
   methods: {
     pushed() {
       this.$emit('pushed')
     }
   },
-
   props: {
     rootClassName: String,
-    "search()": {
-      default: () => {},
+    type: {
+      type: String,
+      default: "submit",
     },
-    button: {
+    text: {
       type: String,
       default: "Button",
     },

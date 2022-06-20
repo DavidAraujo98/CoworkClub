@@ -2,22 +2,34 @@
   <div data-role="Header" class="header-header" v-bind:class="rootClassName">
     <div class="header-container">
       <nav class="header-nav">
-        <router-link to="/" class="header-link large">CoworkClub</router-link>
+        <h4 @click="seen = !seen" >CoworkClub</h4>
         <div class="header-menu">
           <router-link to="/" class="header-navlink large">Home</router-link>
           <router-link to="/spaces" class="header-navlink1 large">
             Spaces
           </router-link>
+          <router-link v-if="user" to="/profile" class="header-navlink2 large">
+            Profile
+          </router-link>
         </div>
-        <primary-pink-button button="Login"></primary-pink-button>
+          <router-link to="/signin" v-if="!user">
+            <primary-pink-button text="Login"></primary-pink-button>
+          </router-link>
+          <secondary-button
+            v-else
+              text="Logout"
+            type="button"
+            @pushed="signOut"
+          >
+          </secondary-button>
       </nav>
     </div>
-    <div data-type="MobileMenu" class="header-mobile-menu">
+    <div data-type="MobileMenu" class="header-mobile-menu" v-show="seen" id="hide">
       <div class="header-top">
-        <router-link to="/" class="header-navlink2 large">
-          Soft UI Design System
-        </router-link>
-        <div data-type="CloseMobileMenu" class="header-close-menu">
+        <h4 @click="seen = !seen">
+          CoworkClub
+        </h4>
+        <div data-type="CloseMobileMenu" class="header-close-menu" @click="seen = !seen">
           <svg viewBox="0 0 1024 1024" class="header-icon">
             <path
               d="M810 274l-238 238 238 238-60 60-238-238-238 238-60-60 238-238-238-238 60-60 238 238 238-238z"
@@ -29,30 +41,67 @@
         <div class="header-menu1">
           <router-link to="/" class="header-navlink3 large">Home</router-link>
           <router-link to="/spaces" class="header-navlink4 large">
+            Spaces
+          </router-link>
+          <router-link v-if="user" to="/profile" class="header-navlink5 large">
             Profile
           </router-link>
-          <span class="header-text large">Coming Soon</span>
         </div>
       </div>
       <div class="header-bot">
-        <primary-pink-button button="buy now"></primary-pink-button>
+        <router-link to="/signin" v-if="!user">
+          <primary-pink-button button="Login"></primary-pink-button>
+        </router-link>
+        <secondary-button
+          v-else
+          text="Logout"
+          type="button"
+          @pushed="signOut"
+        >
+        </secondary-button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import PrimaryPinkButton from './primary-pink-button'
+import PrimaryPinkButton from "./primary-pink-button";
+import SecondaryButton from "./secondary-button";
+import { onAuthStateChanged, signOut  } from "firebase/auth";
+import { auth } from "../fb.js";
 
 export default {
-  name: 'Header',
+  name: "Header",
   props: {
     rootClassName: String,
   },
   components: {
     PrimaryPinkButton,
+    SecondaryButton
   },
-}
+
+  data() {
+    return {
+      user: false,
+      seen: false,
+    }
+  },
+
+  beforeMount() {
+    onAuthStateChanged(auth, (user) => {
+      this.user = user
+    });
+  },
+
+  methods: {
+    signOut() {
+      signOut(auth).then(() => {
+        this.$router.push("/");
+      })
+    },
+  }
+  
+};
 </script>
 
 <style scoped>
@@ -63,7 +112,7 @@ export default {
   width: 100%;
   bottom: auto;
   display: flex;
-  z-index: 3;
+  z-index: 99999;
   position: fixed;
   max-width: 1320px;
   padding-left: var(--dl-space-space-unitandahalfunit);
@@ -106,7 +155,6 @@ export default {
   font-weight: 600;
   margin-left: var(--dl-space-space-unit);
   margin-right: var(--dl-space-space-unit);
-  text-decoration: none;
 }
 .header-menu {
   flex: 0 0 auto;
@@ -138,6 +186,17 @@ export default {
 .header-navlink1:hover {
   color: var(--dl-color-gray-500);
 }
+.header-navlink2 {
+  margin-top: var(--dl-space-space-halfunit);
+  transition: 0.3s;
+  margin-left: var(--dl-space-space-unit);
+  margin-right: var(--dl-space-space-unit);
+  margin-bottom: var(--dl-space-space-halfunit);
+  text-decoration: none;
+}
+.header-navlink2:hover {
+  color: var(--dl-color-gray-500);
+}
 .header-mobile-menu {
   top: 0px;
   flex: 0 0 auto;
@@ -161,10 +220,9 @@ export default {
   flex-direction: row;
   justify-content: space-between;
 }
-.header-navlink2 {
+.header-text {
   color: var(--dl-color-secondary-700);
   font-weight: 600;
-  text-decoration: none;
 }
 .header-close-menu {
   flex: 0 0 auto;
@@ -208,11 +266,11 @@ export default {
 .header-navlink4:hover {
   color: var(--dl-color-gray-500);
 }
-.header-text {
+.header-navlink5 {
   transition: 0.3s;
   text-decoration: none;
 }
-.header-text:hover {
+.header-navlink5:hover {
   color: var(--dl-color-gray-500);
 }
 .header-bot {
@@ -225,8 +283,30 @@ export default {
   .header-nav {
     max-width: 960px;
   }
+}
+@media(max-width: 767px) {
   .header-menu {
     display: none;
+  }
+  .header-mobile-menu {
+    height: auto;
+    display: flex;
+  }
+  .header-bot {
+    width: auto;
+    align-self: center;
+  }
+}
+@media(max-width: 479px) {
+  .header-nav {
+    height: 100%;
+    flex-wrap: wrap;
+  }
+  .header-menu {
+    display: none;
+  }
+  .header-mobile-menu {
+    display: flex;
   }
 }
 </style>
