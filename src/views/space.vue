@@ -264,7 +264,6 @@ export default {
         this.amenities = data.amenities
         this.description = data.description
         this.selectedOffice = this.priceTable[0].id
-        console.log(this.amenities)
       })
   },
 
