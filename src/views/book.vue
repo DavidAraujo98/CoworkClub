@@ -1,8 +1,6 @@
 <template>
   <div class="book-container">
-    <header-logged
-      rootClassName="header-logged-root-class-name2"
-    ></header-logged>
+    <app-header></app-header>
     <div class="book-hero">
       <div class="book-container01">
         <div class="book-container02">
@@ -80,7 +78,8 @@
             </div>
           </div>
           <primary-pink-button
-            button="Confirm Booking !"
+            text="Confirm Booking !"
+            type="button"
             rootClassName="primary-pink-button-root-class-name3"
             @pushed="confirmBook"
           ></primary-pink-button>
@@ -96,9 +95,10 @@
 </template>
 
 <script>
-import HeaderLogged from "../components/header-logged";
+import AppHeader from "../components/header";
 import PrimaryPinkButton from "../components/primary-pink-button";
 import moment from "moment";
+import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, collection, addDoc, setDoc } from "firebase/firestore";
 import { db, auth } from "../fb";
 require("../../public/moment-precise-range");
@@ -106,7 +106,7 @@ require("../../public/moment-precise-range");
 export default {
   name: "Book",
   components: {
-    HeaderLogged,
+    AppHeader,
     PrimaryPinkButton,
   },
 
@@ -120,7 +120,8 @@ export default {
       office: "",
       teamsize: "",
       price: "",
-      priceTable: ""
+      priceTabe: "",
+      user: "",
     };
   },
 
@@ -142,14 +143,17 @@ export default {
         office_type: this.officetype,
         price: this.price,
         space_id: this.id,
-        //user_id: auth.currentUser.uid,
+        user_email: this.user.email,
       }).then((ref) => {
-        /*
-        Will only work when user is signed in, same as previous comment
-        setDoc(doc(db, "users", auth.currentUser.uid), {
-          booking: [getDoc("book/"+ref.id)]
-        }, {merge: true})
-        */
+        setDoc(
+          doc(db, "users", this.user.email),
+          {
+            booking: doc(db, "book", ref.id),
+          },
+          { merge: true }
+        ).then(() => {
+          this.$router.push("/profile")
+        });
       });
     },
   },
@@ -163,14 +167,16 @@ export default {
     this.officetype = x.get("officetype");
     this.office = x.get("office");
     this.teamsize = x.get("teamsize");
-    getDoc(doc(db, "spaces", this.id))
-      .then((querySnapshot) => {
-        var data = querySnapshot.data()
-        this.priceTable = data.priceTable.filter(
-          (x) => x.id == this.officetype
-        )[0].list;
-        this.price = this.calculatePrice();
-      })
+    getDoc(doc(db, "spaces", this.id)).then((querySnapshot) => {
+      var data = querySnapshot.data();
+      this.priceTable = data.priceTable.filter(
+        (x) => x.id == this.officetype
+      )[0].list;
+      this.price = this.calculatePrice();
+    });
+    onAuthStateChanged(auth, (user) => {
+      this.user = user;
+    });
   },
 
   metaInfo: {
@@ -259,7 +265,7 @@ export default {
   display: flex;
   box-shadow: 5px 5px 10px 0px #d4d4d4;
   margin-top: var(--dl-space-space-unit);
-  align-items: center;
+  align-items: start;
   padding-top: var(--dl-space-space-halfunit);
   border-color: var(--dl-color-gray-900);
   border-width: 1px;

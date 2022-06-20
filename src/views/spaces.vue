@@ -1,8 +1,6 @@
 <template>
   <div class="spaces-container">
-    <header-logged
-      rootClassName="header-logged-root-class-name"
-    ></header-logged>
+    <app-header></app-header>
     <app-toolbar
       rootClassName="toolbar-root-class-name"
       @minprice="setMinPrice"
@@ -42,7 +40,7 @@
 </template>
 
 <script>
-import HeaderLogged from "../components/header-logged";
+import AppHeader from "../components/header";
 import AppToolbar from "../components/toolbar";
 import SpaceCard from "../components/space-card";
 import AppFooter from "../components/footer";
@@ -53,7 +51,7 @@ import { db, st } from "../fb";
 export default {
   name: "Spaces",
   components: {
-    HeaderLogged,
+    AppHeader,
     AppToolbar,
     SpaceCard,
     AppFooter,

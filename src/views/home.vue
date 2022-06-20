@@ -9,7 +9,6 @@
           <span class="home-text2 lead">
             <span>
               Find the story of Creative Tim&apos;s most complex design
-              <span v-html="rawwfx2"></span>
             </span>
             <span
               >system and all the work that make this design available.</span
@@ -23,7 +22,7 @@
             class="home-textinput input"
             v-model="search"
           />
-          <router-link :to="`spaces?search=${search}`" class="home-navlink">
+          <router-link :to="{ path: '/spaces', query: { search: search }}" class="home-navlink">
             <primary-pink-button
               button="Search"
               rootClassName="primary-pink-button-root-class-name"
@@ -90,7 +89,6 @@ export default {
   data() {
     return {
       search: "",
-      rawwfx2: " ",
     };
   },
 
@@ -141,7 +139,7 @@ export default {
   z-index: 1;
   box-shadow: 0 8px 26px -4px hsla(0, 0%, 8%, 0.15),
     0 8px 9px -5px hsla(0, 0%, 8%, 0.06) !important;
-  margin-top: var(--dl-space-space-tripleunit);
+  margin-top: 8rem;
   align-items: flex-start;
   border-radius: var(--dl-radius-radius-radius1);
   flex-direction: column;

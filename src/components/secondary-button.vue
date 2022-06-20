@@ -1,22 +1,35 @@
 <template>
   <div class="secondary-button-container" v-bind:class="rootClassName">
-    <button class="secondary-button-button button buttonSmall">
-      {{ button }}
+    <button
+      class="secondary-button-button button buttonSmall"
+      @click="pushed"
+      :type="type"
+    >
+      {{ text }}
     </button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SecondaryButton',
-  props: {
-    rootClassName: String,
-    button: {
-      type: String,
-      default: 'Button',
+  name: "SecondaryButton",
+  methods: {
+    pushed() {
+      this.$emit("pushed");
     },
   },
-}
+  props: {
+    rootClassName: String,
+    type: {
+      type: String,
+      default: "submit",
+    },
+    text: {
+      type: String,
+      default: "Button",
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -30,10 +43,10 @@ export default {
   color: var(--dl-color-gray-white);
   outline: none;
   align-self: stretch;
-  background: linear-gradient(310deg,#141727,#3a416f);
+  background: linear-gradient(310deg, #141727, #3a416f);
   box-shadow: 0 4px 7px -1px rgb(0 0 0 / 11%), 0 2px 4px -1px rgb(0 0 0 / 7%);
   text-align: center;
-  transition: all .15s ease-in;
+  transition: all 0.15s ease-in;
   padding-top: var(--dl-space-space-triplequarterunit);
   border-width: 0px;
   padding-left: var(--dl-space-space-doubleunit);
@@ -45,5 +58,4 @@ export default {
   cursor: pointer;
   transform: scale(1.02);
 }
-
 </style>

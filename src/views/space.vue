@@ -1,8 +1,6 @@
 <template>
   <div class="space-container">
-    <header-logged
-      rootClassName="header-logged-root-class-name1"
-    ></header-logged>
+    <app-header></app-header>
     <div class="space-gallery">
       <div class="space-row">
         <img
@@ -188,9 +186,10 @@
               :to="bookURL"
             >
               <primary-blue-button
-                button="Book Now"
+                text="Book Now"
                 rootClassName="primary-blue-button-root-class-name1"
                 class="space-component1"
+                :disabled="user"
               ></primary-blue-button>
             </router-link>
           </form>
@@ -202,17 +201,18 @@
 </template>
 
 <script>
-import HeaderLogged from "../components/header-logged";
+import AppHeader from "../components/header";
 import PrimaryBlueButton from "../components/primary-blue-button";
 import AppFooter from "../components/footer";
 import { doc, getDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
 import { db } from "../fb";
 
 export default {
   name: "Space",
   props: {},
   components: {
-    HeaderLogged,
+    AppHeader,
     PrimaryBlueButton,
     AppFooter,
   },
@@ -234,7 +234,8 @@ export default {
       office: "",
       officetype: "",
       teamsize: 1,
-      bookURL: ""
+      bookURL: "",
+      user: false,
     };
   },
 
@@ -265,6 +266,9 @@ export default {
         this.description = data.description
         this.selectedOffice = this.priceTable[0].id
       })
+    onAuthStateChanged(auth, (user) => {
+      this.user = user
+    });
   },
 
   metaInfo: {

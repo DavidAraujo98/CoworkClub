@@ -6,6 +6,8 @@ import Book from "./views/book";
 import Spaces from "./views/spaces";
 import Profile from "./views/profile";
 import Space from "./views/space";
+import SignUp from "./views/signup";
+import SignIn from "./views/signin";
 import Home from "./views/home";
 import "./style.css";
 
@@ -17,7 +19,7 @@ export default new Router({
         {
             name: "Book",
             path: "/spaces/book/:space",
-            component: Book,            
+            component: Book,
         },
         {
             name: "Spaces",
@@ -26,13 +28,23 @@ export default new Router({
         },
         {
             name: "Profile",
-            path: "/profile",
+            path: "/profile/:profile",
             component: Profile,
         },
         {
             name: "Space",
             path: "/spaces/:space",
             component: Space,
+        },
+        {
+            name: "Sign Up",
+            path: "/signup",
+            component: SignUp,
+        },
+        {
+            name: "Sign In",
+            path: "/signin",
+            component: SignIn,
         },
         {
             name: "Home",

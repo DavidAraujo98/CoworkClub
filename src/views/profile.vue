@@ -1,8 +1,6 @@
 <template>
   <div class="profile-container">
-    <header-logged
-      rootClassName="header-logged-root-class-name3"
-    ></header-logged>
+    <app-header></app-header>
     <div class="profile-hero">
       <div class="profile-head">
         <h1 class="profile-text">User name</h1>
@@ -93,7 +91,7 @@
 </template>
 
 <script>
-import HeaderLogged from "../components/header-logged";
+import AppHeader from "../components/header";
 import ListItem from "../components/list-item";
 import AppFooter from "../components/footer";
 import { doc, getDoc } from "firebase/firestore";
@@ -103,7 +101,7 @@ export default {
   name: "Profile",
   props: {},
   components: {
-    HeaderLogged,
+    AppHeader,
     ListItem,
     AppFooter,
   },

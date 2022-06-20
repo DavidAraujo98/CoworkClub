@@ -1,7 +1,11 @@
 <template>
   <div class="primary-blue-button-container" v-bind:class="rootClassName">
-    <button class="primary-blue-button-button button buttonSmall">
-      {{ button }}
+    <button
+      class="primary-blue-button-button button buttonSmall"
+      @click="pushed"
+      :type="type"
+    >
+      {{ text }}
     </button>
   </div>
 </template>
@@ -9,9 +13,18 @@
 <script>
 export default {
   name: 'PrimaryBlueButton',
+  methods: {
+    pushed() {
+      this.$emit('pushed')
+    }
+  },
   props: {
     rootClassName: String,
-    button: {
+    type: {
+      type: String,
+      default: "submit",
+    },
+    text: {
       type: String,
       default: 'Button',
     },
