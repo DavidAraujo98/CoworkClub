@@ -33,6 +33,9 @@ export default {
 </script>
 
 <style scoped>
+.primary-pink-button-root-class-name5 {
+  align-self: flex-end;
+}
 .primary-pink-button-container {
   display: flex;
   position: relative;
@@ -67,5 +70,10 @@ export default {
   width: 100%;
   align-self: flex-end;
   margin-top: var(--dl-space-space-doubleunit);
+}
+@media(max-width: 479px) {
+  .primary-pink-button-root-class-name5 {
+    align-self: center;
+  }
 }
 </style>

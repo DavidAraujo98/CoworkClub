@@ -37,8 +37,8 @@ export default {
       default: 'Title',
     },
     price: {
-      type: String,
-      default: '30',
+      type: Number,
+      default: 30,
     },
   },
 }

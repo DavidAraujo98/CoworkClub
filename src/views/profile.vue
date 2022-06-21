@@ -49,7 +49,12 @@
               <h2 class="profile-text22">
                 <span>Personal details</span>
               </h2>
-              <svg viewBox="0 0 1024 1024" class="profile-icon">
+              <svg
+                viewBox="0 0 1024 1024"
+                class="profile-icon"
+                @click="lock = !lock"
+                v-if="lock"
+              >
                 <path
                   d="M896 293.504l-165.504-165.504c-12.501-12.501-28.928-18.731-45.269-18.731-16.384 0-32.725 6.229-45.227 18.731l-466.731 466.731c-12.501 12.501-23.808 31.019-32 50.688-8.192 19.755-13.269 40.917-13.269 58.581v192h192c17.664 0 38.741-5.077 58.496-13.269 19.755-8.192 38.229-19.499 50.731-32l466.773-466.731c12.501-12.501 18.731-28.928 18.731-45.269 0-16.384-6.229-32.725-18.731-45.227zM246.101 642.603l353.835-353.835 52.565 52.565-353.835 353.835-52.565-52.565zM320 810.667h-64l-42.667-42.667v-64c0-3.285 1.408-13.013 6.741-25.813 0.427-0.853 126.592 125.355 126.592 125.355-13.739 5.717-23.381 7.125-26.667 7.125zM381.397 777.899l-52.565-52.565 353.835-353.835 52.565 52.565-353.835 353.835zM765.397 393.899l-135.339-135.339 55.168-55.168 135.253 135.339-55.083 55.168z"
                 ></path>
@@ -60,7 +65,7 @@
                 <label>Username</label>
                 <input
                   type="text"
-                  :placeholder="username"
+                  v-model="username"
                   class="profile-textinput input"
                   :disabled="lock"
                 />
@@ -69,7 +74,7 @@
                 <label>Email</label>
                 <input
                   type="text"
-                  :placeholder="email"
+                  v-model="email"
                   class="profile-textinput1 input"
                   :disabled="lock"
                 />
@@ -79,11 +84,28 @@
                 <input
                   type="text"
                   placeholder="●●●●●●●●●●●"
+                  v-model="password"
                   class="profile-textinput2 input"
                   :disabled="lock"
                 />
               </div>
+              <div class="profile-container11">
+                <label><span>Job title</span></label>
+                <input
+                  type="text"
+                  v-model="jobtitle"
+                  class="profile-textinput3 input"
+                  :disabled="lock"
+                />
+              </div>
             </div>
+            <primary-pink-button
+              v-if="!lock"
+              rootClassName="primary-pink-button-root-class-name5"
+              type="button"
+              text="Confirm"
+              @pushed="confirmEdit"
+            ></primary-pink-button>
           </div>
         </form>
       </div>
@@ -114,6 +136,7 @@ import AppHeader from "../components/header";
 import ListItem from "../components/list-item";
 import AppFooter from "../components/footer";
 import Loader from "../components/loader";
+import PrimaryPinkButton from "../components/primary-pink-button";
 
 import {
   collection,
@@ -129,11 +152,19 @@ export default {
   name: "Profile",
   props: {},
   components: {
+    PrimaryPinkButton,
     AppHeader,
     ListItem,
     AppFooter,
-    Loader
-},
+    Loader,
+  },
+
+  methods: {
+    confirmEdit() {
+      this.loading = true;
+      console.log("hi");
+    },
+  },
 
   data() {
     return {
@@ -147,6 +178,7 @@ export default {
       lstsp: "",
       email: "",
       vstsp: 0,
+      password: "",
     };
   },
 
@@ -154,42 +186,59 @@ export default {
     var user = auth.currentUser;
     this.email = user.email;
     user = doc(db, "users", this.email);
-    getDoc(user).then((querySnapshot) => {
-      var data = querySnapshot.data();
-      this.username = data.username;
-      this.jobtitle = data.jobtitle;
-      this.prefoff = data.prefoff;
-      this.vstsp = data.vstsp;
+    getDoc(user)
+      .then((querySnapshot) => {
+        var data = querySnapshot.data();
+        this.username = data.username;
+        this.jobtitle = data.jobtitle;
+        this.prefoff = data.prefoff;
+        this.vstsp = data.vstsp;
 
-      const q = query(collection(db, "book"), where("user_email", "==", user));
-      getDocs(q).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          getDoc(doc.data().space_id).then((x) => {
-            var y = doc.data()
-            y.space_id = x.data().name
-            this.bookings.push(y)
-            console.log(this.bookings);
-          })
+        const q = query(
+          collection(db, "book"),
+          where("user_email", "==", user)
+        );
+        getDocs(q).then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            getDoc(doc.data().space_id).then((x) => {
+              var y = doc.data();
+              y.space_id = x.data().name;
+              this.bookings.push(y);
+            });
+          });
         });
-      });
 
-      getDoc(data.favsp).then((querySnapshot) => {
-        var sp = querySnapshot.data();
-        this.favsp = sp.name;
+        getDoc(data.favsp).then((querySnapshot) => {
+          var sp = querySnapshot.data();
+          this.favsp = sp.name;
+        });
+        getDoc(data.lstsp).then((querySnapshot) => {
+          var sp = querySnapshot.data();
+          this.lstsp = sp.name;
+        });
+      })
+      .then(() => {
+        this.loading = false;
       });
-      getDoc(data.lstsp).then((querySnapshot) => {
-        var sp = querySnapshot.data();
-        this.lstsp = sp.name;
-      });
-
-    }).then(() => {
-      this.loading = false;
-    })
   },
 };
 </script>
 
 <style scoped>
+.profile-container11 {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: var(--dl-space-space-unit);
+  flex-direction: column;
+}
+.profile-textinput3 {
+  width: auto;
+  min-width: 270px;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  border-color: var(--dl-color-gray-800);
+  border-width: 1px;
+  border-radius: var(--dl-radius-radius-radius40);
+}
 .profile-container {
   width: 100%;
   display: flex;
@@ -396,7 +445,7 @@ export default {
   flex-wrap: wrap;
   align-items: flex-start;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 .profile-container08 {
   display: flex;
@@ -405,7 +454,7 @@ export default {
   flex-direction: column;
 }
 .profile-textinput {
-  width: 329px;
+  width: 270px;
   box-shadow: 5px 5px 10px 0px #d4d4d4;
   border-color: var(--dl-color-gray-800);
   border-width: 1px;
@@ -418,7 +467,7 @@ export default {
   flex-direction: column;
 }
 .profile-textinput1 {
-  width: 329px;
+  width: 270px;
   box-shadow: 5px 5px 10px 0px #d4d4d4;
   border-color: var(--dl-color-gray-800);
   border-width: 1px;
@@ -431,7 +480,7 @@ export default {
   flex-direction: column;
 }
 .profile-textinput2 {
-  width: 329px;
+  width: 270px;
   box-shadow: 5px 5px 10px 0px #d4d4d4;
   border-color: var(--dl-color-gray-800);
   border-width: 1px;
@@ -501,15 +550,6 @@ export default {
   }
   .profile-row {
     justify-content: center;
-  }
-  .profile-textinput {
-    width: 404px;
-  }
-  .profile-textinput1 {
-    width: 404px;
-  }
-  .profile-textinput2 {
-    width: 404px;
   }
   .profile-text28 {
     margin-bottom: var(--dl-space-space-halfunit);

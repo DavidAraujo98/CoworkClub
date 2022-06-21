@@ -100,7 +100,7 @@ export default {
       this.loading = true
       createUserWithEmailAndPassword(auth, this.email, this.password)
         .then((userCredential) => {
-          this.$user = userCredential.user;
+          userCredential.user.displayName = this.username;
           setDoc(doc(db, "users", this.email), {
             username: this.username,
           }).then(() => {

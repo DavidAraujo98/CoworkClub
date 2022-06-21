@@ -99,7 +99,7 @@ import AppHeader from "../components/header";
 import PrimaryPinkButton from "../components/primary-pink-button";
 import moment from "moment";
 import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc, collection, addDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, collection, addDoc} from "firebase/firestore";
 import { db, auth } from "../fb";
 require("../../public/moment-precise-range");
 

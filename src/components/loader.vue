@@ -26,8 +26,8 @@ export default {
   height: 60px;
   animation: spin 2s linear infinite;
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: 50vw;
+  top: 50vh;
   transform: translate(-50%, -50%);
   z-index: 999999;
 }
