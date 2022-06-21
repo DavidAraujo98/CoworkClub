@@ -96,6 +96,7 @@ export default {
           const errorCode = error.code;
           const errorMessage = error.message;
           alert(errorMessage);
+          this.loading = false;
         });
     },
   },

@@ -98,7 +98,6 @@
 import AppHeader from "../components/header";
 import PrimaryPinkButton from "../components/primary-pink-button";
 import moment from "moment";
-import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, collection, addDoc} from "firebase/firestore";
 import { db, auth } from "../fb";
 require("../../public/moment-precise-range");
@@ -120,7 +119,6 @@ export default {
       teamsize: "",
       price: "",
       priceTabe: "",
-      user: "",
     };
   },
 
@@ -142,7 +140,7 @@ export default {
         office_type: this.officetype,
         price: this.price,
         space_id: doc(db, "spaces", this.id),
-        user_email: doc(db, "users", this.user.email),
+        user_id: doc(db, "users", auth.currentUser.uid),
       }).then(() => {
         this.$router.push("/profile");
       });
@@ -163,9 +161,6 @@ export default {
         (x) => x.id == this.officetype
       )[0].list;
       this.price = this.calculatePrice();
-    });
-    onAuthStateChanged(auth, (user) => {
-      this.user = user;
     });
   },
 

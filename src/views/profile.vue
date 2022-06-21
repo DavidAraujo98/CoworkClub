@@ -7,26 +7,6 @@
         <h1 class="profile-text">{{ username }}</h1>
         <div class="profile-container01">
           <div class="profile-container02">
-            <div class="profile-container03">
-              <p class="profile-text01">
-                <span>Job Title:</span>
-              </p>
-              <p class="profile-text04">
-                <span>{{ jobtitle }}</span>
-              </p>
-            </div>
-            <div class="profile-container04">
-              <p class="profile-text06"><span>Preferred office:</span></p>
-              <p class="profile-text08">
-                <span>{{ prefoff }}</span>
-              </p>
-            </div>
-            <div class="profile-container05">
-              <p class="profile-text10"><span>Favorite space:</span></p>
-              <p class="profile-text12">
-                <span>{{ favsp }}</span>
-              </p>
-            </div>
             <div class="profile-container06">
               <p class="profile-text14"><span>Last visited space:</span></p>
               <p class="profile-text16">
@@ -85,6 +65,7 @@
                   type="text"
                   placeholder="●●●●●●●●●●●"
                   v-model="password"
+                  @change="password_c = true"
                   class="profile-textinput2 input"
                   :disabled="lock"
                 />
@@ -94,6 +75,7 @@
                 <input
                   type="text"
                   v-model="jobtitle"
+                  @change="jobtitle_c = true"
                   class="profile-textinput3 input"
                   :disabled="lock"
                 />
@@ -145,7 +127,9 @@ import {
   getDocs,
   getDoc,
   doc,
+  updateDoc,
 } from "firebase/firestore";
+import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
 import { db, auth } from "../fb";
 
 export default {
@@ -161,8 +145,47 @@ export default {
 
   methods: {
     confirmEdit() {
-      this.loading = true;
-      console.log("hi");
+      const user = auth.currentUser;
+      this.lock = !this.lock;
+      if (user != null) {
+        if (this.jobtitle_c && this.jobtitle != "") {
+          this.loading = true;
+          var userref = doc(db, "users", user.uid);
+          updateDoc(userref, {
+            jobtitle: this.jobtitle,
+          }).then(() => {
+            this.loading = false;
+          });
+        }
+        if (user.displayName != this.username) {
+          this.loading = true;
+          updateProfile(user, {
+            displayName: this.username,
+          }).then(() => {
+            this.loading = false;
+          });
+        }
+        if (user.email != this.email) {
+          this.loading = true;
+          updateEmail(user, this.email)
+            .then(() => {
+              this.loading = false;
+            })
+            .catch((error) => {
+              if (error.code == "auth/requires-recent-login")
+                alert(
+                  "This action requires a recent login, please login again"
+                );
+              this.$router.push("/signin");
+            });
+        }
+        if (this.password_c && this.password != "") {
+          this.loading = true;
+          updatePassword(user, this.password).then(() => {
+            this.loading = false;
+          });
+        }
+      }
     },
   },
 
@@ -173,30 +196,31 @@ export default {
       bookings: [],
       username: "",
       jobtitle: "",
+      jobtitle_c: false,
       prefoff: "",
       favsp: "",
       lstsp: "",
       email: "",
       vstsp: 0,
       password: "",
+      password_c: false,
     };
   },
 
   beforeMount() {
-    var user = auth.currentUser;
+    const user = auth.currentUser;
+    this.username = user.displayName;
     this.email = user.email;
-    user = doc(db, "users", this.email);
-    getDoc(user)
+    var userref = doc(db, "users", user.uid);
+    getDoc(userref)
       .then((querySnapshot) => {
         var data = querySnapshot.data();
-        this.username = data.username;
         this.jobtitle = data.jobtitle;
         this.prefoff = data.prefoff;
         this.vstsp = data.vstsp;
-
         const q = query(
           collection(db, "book"),
-          where("user_email", "==", user)
+          where("user_id", "==", userref)
         );
         getDocs(q).then((querySnapshot) => {
           querySnapshot.forEach((doc) => {
@@ -207,15 +231,18 @@ export default {
             });
           });
         });
-
-        getDoc(data.favsp).then((querySnapshot) => {
-          var sp = querySnapshot.data();
-          this.favsp = sp.name;
-        });
-        getDoc(data.lstsp).then((querySnapshot) => {
-          var sp = querySnapshot.data();
-          this.lstsp = sp.name;
-        });
+        if (data.favsp) {
+          getDoc(data.favsp).then((querySnapshot) => {
+            var sp = querySnapshot.data();
+            this.favsp = sp.name;
+          });
+        }
+        if (data.lstsp) {
+          getDoc(data.lstsp).then((querySnapshot) => {
+            var sp = querySnapshot.data();
+            this.lstsp = sp.name;
+          });
+        }
       })
       .then(() => {
         this.loading = false;
@@ -289,72 +316,6 @@ export default {
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-around;
-}
-.profile-container03 {
-  display: flex;
-  box-shadow: 5px 5px 10px 0px #d4d4d4;
-  margin-top: var(--dl-space-space-halfunit);
-  align-items: center;
-  margin-left: var(--dl-space-space-unitandahalfunit);
-  padding-top: var(--dl-space-space-halfunit);
-  margin-right: var(--dl-space-space-unitandahalfunit);
-  padding-left: var(--dl-space-space-unit);
-  border-radius: var(--dl-radius-radius-radius40);
-  margin-bottom: var(--dl-space-space-halfunit);
-  padding-right: var(--dl-space-space-unit);
-  padding-bottom: var(--dl-space-space-halfunit);
-  justify-content: flex-start;
-}
-.profile-text01 {
-  color: var(--dl-color-secondary-200);
-  margin-right: var(--dl-space-space-halfunit);
-}
-.profile-text04 {
-  color: var(--dl-color-secondary-600);
-}
-.profile-container04 {
-  display: flex;
-  box-shadow: 5px 5px 10px 0px #d4d4d4;
-  margin-top: var(--dl-space-space-halfunit);
-  align-items: center;
-  margin-left: var(--dl-space-space-unitandahalfunit);
-  padding-top: var(--dl-space-space-halfunit);
-  margin-right: var(--dl-space-space-unitandahalfunit);
-  padding-left: var(--dl-space-space-unit);
-  border-radius: var(--dl-radius-radius-radius40);
-  margin-bottom: var(--dl-space-space-halfunit);
-  padding-right: var(--dl-space-space-unit);
-  padding-bottom: var(--dl-space-space-halfunit);
-  justify-content: flex-start;
-}
-.profile-text06 {
-  color: var(--dl-color-secondary-200);
-  margin-right: var(--dl-space-space-halfunit);
-}
-.profile-text08 {
-  color: var(--dl-color-secondary-600);
-}
-.profile-container05 {
-  display: flex;
-  box-shadow: 5px 5px 10px 0px #d4d4d4;
-  margin-top: var(--dl-space-space-halfunit);
-  align-items: center;
-  margin-left: var(--dl-space-space-unitandahalfunit);
-  padding-top: var(--dl-space-space-halfunit);
-  margin-right: var(--dl-space-space-unitandahalfunit);
-  padding-left: var(--dl-space-space-unit);
-  border-radius: var(--dl-radius-radius-radius40);
-  margin-bottom: var(--dl-space-space-halfunit);
-  padding-right: var(--dl-space-space-unit);
-  padding-bottom: var(--dl-space-space-halfunit);
-  justify-content: flex-start;
-}
-.profile-text10 {
-  color: var(--dl-color-secondary-200);
-  margin-right: var(--dl-space-space-halfunit);
-}
-.profile-text12 {
-  color: var(--dl-color-secondary-600);
 }
 .profile-container06 {
   display: flex;
@@ -518,15 +479,6 @@ export default {
 @media (max-width: 991px) {
   .profile-hero {
     flex-direction: column;
-  }
-  .profile-container03 {
-    margin: var(--dl-space-space-halfunit);
-  }
-  .profile-container04 {
-    margin: var(--dl-space-space-halfunit);
-  }
-  .profile-container05 {
-    margin: var(--dl-space-space-halfunit);
   }
   .profile-container06 {
     margin: var(--dl-space-space-halfunit);

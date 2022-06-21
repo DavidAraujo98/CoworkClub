@@ -187,7 +187,7 @@
                 text="Book Now"
                 rootClassName="primary-blue-button-root-class-name1"
                 class="space-component1"
-                :disabled="!user"
+                :disabled="user"
               ></primary-blue-button>
             </router-link>
           </form>
@@ -236,7 +236,7 @@ export default {
       officetype: "",
       teamsize: 1,
       bookURL: "",
-      user: false,
+      user: true,
     };
   },
 

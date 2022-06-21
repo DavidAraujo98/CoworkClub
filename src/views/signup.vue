@@ -74,7 +74,7 @@
 import PrimaryBlueButton from "../components/primary-blue-button";
 import AppFooter from "../components/footer";
 import AppHeader from "../components/header";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { db, auth } from "../fb.js";
 import { doc, setDoc } from "firebase/firestore";
 
@@ -97,12 +97,16 @@ export default {
 
   methods: {
     register() {
-      this.loading = true
+      this.loading = true;
       createUserWithEmailAndPassword(auth, this.email, this.password)
         .then((userCredential) => {
-          userCredential.user.displayName = this.username;
-          setDoc(doc(db, "users", this.email), {
-            username: this.username,
+          updateProfile(userCredential.user, {
+            displayName: this.username,
+          }).then(() => {
+            this.loading = false;
+          });
+          setDoc(doc(db, "users", userCredential.user.uid), {
+            join_date: Date.now(),
           }).then(() => {
             this.$router.push("/");
             this.loading = false;
@@ -112,6 +116,7 @@ export default {
           const errorCode = error.code;
           const errorMessage = error.message;
           alert(errorMessage);
+          this.loading = false;
         });
     },
   },
