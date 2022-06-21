@@ -41,7 +41,7 @@
               </div>
               <div class="book-container08">
                 <h3 class="book-text11"><span>Office type</span></h3>
-                <span>{{ office }}</span>
+                <span>{{ officetype }}</span>
               </div>
             </div>
           </div>
@@ -117,7 +117,6 @@ export default {
       checkin: "",
       checkout: "",
       officetype: "",
-      office: "",
       teamsize: "",
       price: "",
       priceTabe: "",
@@ -142,18 +141,10 @@ export default {
         checkout: this.checkout,
         office_type: this.officetype,
         price: this.price,
-        space_id: this.id,
-        user_email: this.user.email,
-      }).then((ref) => {
-        setDoc(
-          doc(db, "users", this.user.email),
-          {
-            booking: doc(db, "book", ref.id),
-          },
-          { merge: true }
-        ).then(() => {
-          this.$router.push("/profile")
-        });
+        space_id: doc(db, "spaces", this.id),
+        user_email: doc(db, "users", this.user.email),
+      }).then(() => {
+        this.$router.push("/profile");
       });
     },
   },
@@ -165,7 +156,6 @@ export default {
     this.checkin = x.get("checkin");
     this.checkout = x.get("checkout");
     this.officetype = x.get("officetype");
-    this.office = x.get("office");
     this.teamsize = x.get("teamsize");
     getDoc(doc(db, "spaces", this.id)).then((querySnapshot) => {
       var data = querySnapshot.data();

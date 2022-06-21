@@ -1,6 +1,7 @@
 <template>
   <div class="sign-up-container">
     <app-header></app-header>
+    <loading :loading="loading"></loading>
     <div class="sign-up-hero">
       <div class="sign-up-container1">
         <div class="sign-up-card">
@@ -87,6 +88,7 @@ export default {
 
   data() {
     return {
+      loading: false,
       email: "",
       password: "",
       username: "",
@@ -95,6 +97,7 @@ export default {
 
   methods: {
     register() {
+      this.loading = true
       createUserWithEmailAndPassword(auth, this.email, this.password)
         .then((userCredential) => {
           this.$user = userCredential.user;
@@ -102,6 +105,7 @@ export default {
             username: this.username,
           }).then(() => {
             this.$router.push("/");
+            this.loading = false;
           });
         })
         .catch((error) => {

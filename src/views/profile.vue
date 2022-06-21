@@ -1,6 +1,7 @@
 <template>
   <div class="profile-container">
     <app-header></app-header>
+    <loader :loading="loading"></loader>
     <div class="profile-hero">
       <div class="profile-head">
         <h1 class="profile-text">{{ username }}</h1>
@@ -94,8 +95,8 @@
               v-for="item in bookings"
               :key="item.checkin"
               rootClassName="list-item-root-class-name"
-              :space="item.space"
-              :office="item.office"
+              :space="item.space_id"
+              :office="item.office_type"
               :checkin="item.checkin"
               :checkout="item.checkout"
               :price="item.price"
@@ -112,7 +113,16 @@
 import AppHeader from "../components/header";
 import ListItem from "../components/list-item";
 import AppFooter from "../components/footer";
-import { doc, getDoc } from "firebase/firestore";
+import Loader from "../components/loader";
+
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  getDoc,
+  doc,
+} from "firebase/firestore";
 import { db, auth } from "../fb";
 
 export default {
@@ -122,10 +132,12 @@ export default {
     AppHeader,
     ListItem,
     AppFooter,
-  },
+    Loader
+},
 
   data() {
     return {
+      loading: true,
       lock: true,
       bookings: [],
       username: "",
@@ -139,18 +151,40 @@ export default {
   },
 
   beforeMount() {
-    const user = auth.currentUser;
+    var user = auth.currentUser;
     this.email = user.email;
-    getDoc(doc(db, "users", this.email)).then((querySnapshot) => {
+    user = doc(db, "users", this.email);
+    getDoc(user).then((querySnapshot) => {
       var data = querySnapshot.data();
-      console.log(data);
       this.username = data.username;
       this.jobtitle = data.jobtitle;
       this.prefoff = data.prefoff;
-      //this.favsp = data.favsp;
-      //this.lstsp = data.lstsp;
       this.vstsp = data.vstsp;
-    });
+
+      const q = query(collection(db, "book"), where("user_email", "==", user));
+      getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          getDoc(doc.data().space_id).then((x) => {
+            var y = doc.data()
+            y.space_id = x.data().name
+            this.bookings.push(y)
+            console.log(this.bookings);
+          })
+        });
+      });
+
+      getDoc(data.favsp).then((querySnapshot) => {
+        var sp = querySnapshot.data();
+        this.favsp = sp.name;
+      });
+      getDoc(data.lstsp).then((querySnapshot) => {
+        var sp = querySnapshot.data();
+        this.lstsp = sp.name;
+      });
+
+    }).then(() => {
+      this.loading = false;
+    })
   },
 };
 </script>

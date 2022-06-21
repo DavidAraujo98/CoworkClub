@@ -1,6 +1,7 @@
 <template>
   <div class="space-container">
     <app-header></app-header>
+    <loader :loading="loading"></loader>
     <div class="space-gallery">
       <div class="space-row">
         <img
@@ -94,7 +95,7 @@
                   @click="selectedOffice = option.id"
                 >
                   <span class="space-text20">
-                    <span>{{ option.name }}</span>
+                    <span>{{ option.id }}</span>
                   </span>
                 </button>
               </div>
@@ -167,7 +168,7 @@
                   :key="option.id"
                   v-bind:value="option.id"
                 >
-                  {{ option.name }}
+                  {{ option.id }}
                 </option>
               </select>
             </div>
@@ -186,7 +187,7 @@
                 text="Book Now"
                 rootClassName="primary-blue-button-root-class-name1"
                 class="space-component1"
-                :disabled="user"
+                :disabled="!user"
               ></primary-blue-button>
             </router-link>
           </form>
@@ -203,7 +204,8 @@ import PrimaryBlueButton from "../components/primary-blue-button";
 import AppFooter from "../components/footer";
 import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import { db } from "../fb";
+import { db, auth } from "../fb";
+import Loader from "../components/loader.vue";
 
 export default {
   name: "Space",
@@ -212,10 +214,12 @@ export default {
     AppHeader,
     PrimaryBlueButton,
     AppFooter,
-  },
+    Loader
+},
 
   data() {
     return {
+      loading: true,
       id: "",
       name: "",
       rating: "",
@@ -248,8 +252,11 @@ export default {
         this.checkout != "" &&
         this.officetype != "" &&
         Date.parse(this.checkout) > Date.parse(this.checkin)
-      )
-        this.bookURL = `book/${this.id}?name=${this.name}&checkin=${this.checkin}&checkout=${this.checkout}&officetype=${this.officetype}&office=${this.office}&teamsize=${this.teamsize}`;
+      ) {
+        this.bookURL = `book/${this.id}?name=${this.name}&checkin=${this.checkin}&checkout=${this.checkout}&officetype=${this.officetype}&teamsize=${this.teamsize}`;
+      } else if (Date.parse(this.checkout) <= Date.parse(this.checkin)) {
+        alert("Checkin must be prior to checkout");
+      }
     },
   },
 
@@ -266,6 +273,7 @@ export default {
       this.amenities = data.amenities;
       this.description = data.description;
       this.selectedOffice = this.priceTable[0].id;
+      this.loading = false;
     });
     onAuthStateChanged(auth, (user) => {
       this.user = user;
@@ -826,6 +834,7 @@ export default {
   text-align: center;
   border-width: 0px;
   border-radius: var(--dl-radius-radius-radius40);
+  width: 100%;
 }
 .space-checkout {
   flex: 0 0 auto;
@@ -846,6 +855,7 @@ export default {
   text-align: center;
   border-width: 0px;
   border-radius: var(--dl-radius-radius-radius40);
+  width: 100%;
 }
 .space-office-type {
   flex: 0 0 auto;
@@ -892,6 +902,7 @@ export default {
   text-align: center;
   border-width: 0px;
   border-radius: var(--dl-radius-radius-radius40);
+  width: 100%;
 }
 .space-component1 {
   text-decoration: none;
