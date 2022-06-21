@@ -3,30 +3,40 @@
     <app-header></app-header>
     <div class="profile-hero">
       <div class="profile-head">
-        <h1 class="profile-text">User name</h1>
+        <h1 class="profile-text">{{ username }}</h1>
         <div class="profile-container01">
           <div class="profile-container02">
             <div class="profile-container03">
               <p class="profile-text01">
-                <span>Job title</span>
+                <span>Job Title:</span>
               </p>
-              <p class="profile-text04"><span>Hot Desk</span></p>
+              <p class="profile-text04">
+                <span>{{ jobtitle }}</span>
+              </p>
             </div>
             <div class="profile-container04">
               <p class="profile-text06"><span>Preferred office:</span></p>
-              <p class="profile-text08"><span>Hot Desk</span></p>
+              <p class="profile-text08">
+                <span>{{ prefoff }}</span>
+              </p>
             </div>
             <div class="profile-container05">
               <p class="profile-text10"><span>Favorite space:</span></p>
-              <p class="profile-text12"><span>AveiroHub</span></p>
+              <p class="profile-text12">
+                <span>{{ favsp }}</span>
+              </p>
             </div>
             <div class="profile-container06">
               <p class="profile-text14"><span>Last visited space:</span></p>
-              <p class="profile-text16"><span>Ocupa Aveiro</span></p>
+              <p class="profile-text16">
+                <span>{{ lstsp }}</span>
+              </p>
             </div>
             <div class="profile-container07">
               <p class="profile-text18"><span>Visited spaces:</span></p>
-              <p class="profile-text20"><span>5</span></p>
+              <p class="profile-text20">
+                <span>{{ vstsp }}</span>
+              </p>
             </div>
           </div>
         </div>
@@ -37,7 +47,6 @@
             <div class="profile-title">
               <h2 class="profile-text22">
                 <span>Personal details</span>
-                <span></span>
               </h2>
               <svg viewBox="0 0 1024 1024" class="profile-icon">
                 <path
@@ -50,16 +59,18 @@
                 <label>Username</label>
                 <input
                   type="text"
-                  placeholder="John Doe"
+                  :placeholder="username"
                   class="profile-textinput input"
+                  :disabled="lock"
                 />
               </div>
               <div class="profile-container09">
                 <label>Email</label>
                 <input
                   type="text"
-                  placeholder="johndoe@gmail.com"
+                  :placeholder="email"
                   class="profile-textinput1 input"
+                  :disabled="lock"
                 />
               </div>
               <div class="profile-container10">
@@ -68,6 +79,7 @@
                   type="text"
                   placeholder="●●●●●●●●●●●"
                   class="profile-textinput2 input"
+                  :disabled="lock"
                 />
               </div>
             </div>
@@ -76,11 +88,17 @@
       </div>
       <div class="profile-calendar">
         <div class="profile-column1">
-          <h2 class="profile-text28"><span>Bookings</span></h2>
+          <h2 class="profile-text28">Bookings</h2>
           <div class="profile-row1">
             <list-item
+              v-for="item in bookings"
+              :key="item.checkin"
               rootClassName="list-item-root-class-name"
-              title="Aveiro Hub"
+              :space="item.space"
+              :office="item.office"
+              :checkin="item.checkin"
+              :checkout="item.checkout"
+              :price="item.price"
             ></list-item>
           </div>
         </div>
@@ -95,7 +113,7 @@ import AppHeader from "../components/header";
 import ListItem from "../components/list-item";
 import AppFooter from "../components/footer";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../fb";
+import { db, auth } from "../fb";
 
 export default {
   name: "Profile",
@@ -104,6 +122,35 @@ export default {
     AppHeader,
     ListItem,
     AppFooter,
+  },
+
+  data() {
+    return {
+      lock: true,
+      bookings: [],
+      username: "",
+      jobtitle: "",
+      prefoff: "",
+      favsp: "",
+      lstsp: "",
+      email: "",
+      vstsp: 0,
+    };
+  },
+
+  beforeMount() {
+    const user = auth.currentUser;
+    this.email = user.email;
+    getDoc(doc(db, "users", this.email)).then((querySnapshot) => {
+      var data = querySnapshot.data();
+      console.log(data);
+      this.username = data.username;
+      this.jobtitle = data.jobtitle;
+      this.prefoff = data.prefoff;
+      //this.favsp = data.favsp;
+      //this.lstsp = data.lstsp;
+      this.vstsp = data.vstsp;
+    });
   },
 };
 </script>

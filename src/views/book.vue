@@ -158,7 +158,7 @@ export default {
     },
   },
 
-  beforeMount() {
+  created() {
     const x = new URLSearchParams(window.location.search);
     this.id = window.location.pathname.split("/").pop();
     this.name = x.get("name");

@@ -13,7 +13,7 @@
     ></app-toolbar>
     <div class="spaces-container1">
       <div class="spaces-container2">
-        <div v-for="item in space_list" :key="item.id">
+        <div v>
           <space-card
             v-if="
               item.data().price >= min_price &&
@@ -95,9 +95,9 @@ export default {
     },
   },
 
-  beforeMount() {
+  created() {
     this.search = new URLSearchParams(window.location.search).get("search");
-    const image = ref(st, 'spaces-thumbnails');
+    const image = ref(st, "spaces-thumbnails");
     getDocs(collection(db, "spaces")).then(
       (querySnapshot) => (this.space_list = querySnapshot.docs)
     );

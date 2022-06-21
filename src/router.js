@@ -10,9 +10,12 @@ import SignUp from "./views/signup";
 import SignIn from "./views/signin";
 import Home from "./views/home";
 import "./style.css";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./fb.js";
 
 Vue.use(Router);
 Vue.use(Meta);
+
 export default new Router({
     mode: "history",
     routes: [
@@ -28,8 +31,18 @@ export default new Router({
         },
         {
             name: "Profile",
-            path: "/profile/:id",
+            path: "/profile/:id*",
             component: Profile,
+            beforeEnter: (to, from, next) => {
+                onAuthStateChanged(auth, (user) => {
+                    if (!user) {
+                        next(from);
+                        return false;
+                    }
+                    next();
+                    return true;
+                });
+            },
         },
         {
             name: "Space",

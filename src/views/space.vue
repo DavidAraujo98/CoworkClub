@@ -107,7 +107,8 @@
                 </div>
                 <div
                   class="space-row-1"
-                  v-for="item in priceTable.find((x) => x.id == selectedOffice).list"
+                  v-for="item in priceTable.find((x) => x.id == selectedOffice)
+                    .list"
                   :key="item.id"
                 >
                   <span class="space-text35">{{ item.people }}</span>
@@ -131,9 +132,7 @@
           </div>
         </div>
         <div class="space-right">
-          <form class="space-form"
-            @change="formChange"
-          >
+          <form class="space-form" @change="formChange">
             <h2 class="space-text50">Booking</h2>
             <div class="space-checkin">
               <label class="space-text51"><span>Checkin</span></label>
@@ -182,9 +181,7 @@
                 required
               />
             </div>
-            <router-link
-              :to="bookURL"
-            >
+            <router-link :to="bookURL">
               <primary-blue-button
                 text="Book Now"
                 rootClassName="primary-blue-button-root-class-name1"
@@ -246,28 +243,32 @@ export default {
       )[0].name;
     },
     formChange() {
-      if(this.checkin != "" && this.checkout != "" && this.officetype != "" && (Date.parse(this.checkout) > Date.parse(this.checkin)))
-        this.bookURL = `book/${this.id}?name=${this.name}&checkin=${this.checkin}&checkout=${this.checkout}&officetype=${this.officetype}&office=${this.office}&teamsize=${this.teamsize}`
-    }
+      if (
+        this.checkin != "" &&
+        this.checkout != "" &&
+        this.officetype != "" &&
+        Date.parse(this.checkout) > Date.parse(this.checkin)
+      )
+        this.bookURL = `book/${this.id}?name=${this.name}&checkin=${this.checkin}&checkout=${this.checkout}&officetype=${this.officetype}&office=${this.office}&teamsize=${this.teamsize}`;
+    },
   },
 
-  beforeMount() {
-    this.id = window.location.pathname.split("/").pop()
-    getDoc(doc(db, "spaces", this.id))
-      .then((querySnapshot) => {
-        var data = querySnapshot.data()
-        this.name = data.name;
-        this.rating = data.rating;
-        this.nReview = data.nReview;
-        this.location = data.location;
-        this.accessHours = data.accessHours;
-        this.priceTable = data.priceTable
-        this.amenities = data.amenities
-        this.description = data.description
-        this.selectedOffice = this.priceTable[0].id
-      })
+  created() {
+    this.id = window.location.pathname.split("/").pop();
+    getDoc(doc(db, "spaces", this.id)).then((querySnapshot) => {
+      var data = querySnapshot.data();
+      this.name = data.name;
+      this.rating = data.rating;
+      this.nReview = data.nReview;
+      this.location = data.location;
+      this.accessHours = data.accessHours;
+      this.priceTable = data.priceTable;
+      this.amenities = data.amenities;
+      this.description = data.description;
+      this.selectedOffice = this.priceTable[0].id;
+    });
     onAuthStateChanged(auth, (user) => {
-      this.user = user
+      this.user = user;
     });
   },
 

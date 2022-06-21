@@ -8,8 +8,11 @@
           <router-link to="/spaces" class="header-navlink1 large">
             Spaces
           </router-link>
-          <router-link v-if="user" :to="{ name: 'Profile', params: {id: user.uid } }"
-            class="header-navlink2 large">
+          <router-link
+            v-if="user"
+            :to="{ name: 'Profile', params: { id: user.uid } }"
+            class="header-navlink2 large"
+          >
             Profile
           </router-link>
         </div>
@@ -20,15 +23,23 @@
         </secondary-button>
       </nav>
     </div>
-    <div data-type="MobileMenu" class="header-mobile-menu" v-show="seen" id="hide">
+    <div
+      data-type="MobileMenu"
+      class="header-mobile-menu"
+      v-show="seen"
+      id="hide"
+    >
       <div class="header-top">
-        <h4 @click="seen = !seen">
-          CoworkClub
-        </h4>
-        <div data-type="CloseMobileMenu" class="header-close-menu" @click="seen = !seen">
+        <h4 @click="seen = !seen">CoworkClub</h4>
+        <div
+          data-type="CloseMobileMenu"
+          class="header-close-menu"
+          @click="seen = !seen"
+        >
           <svg viewBox="0 0 1024 1024" class="header-icon">
-            <path d="M810 274l-238 238 238 238-60 60-238-238-238 238-60-60 238-238-238-238 60-60 238 238 238-238z">
-            </path>
+            <path
+              d="M810 274l-238 238 238 238-60 60-238-238-238 238-60-60 238-238-238-238 60-60 238 238 238-238z"
+            ></path>
           </svg>
         </div>
       </div>
@@ -57,7 +68,7 @@
 <script>
 import PrimaryPinkButton from "./primary-pink-button";
 import SecondaryButton from "./secondary-button";
-import { onAuthStateChanged, signOut  } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../fb.js";
 
 export default {
@@ -67,19 +78,19 @@ export default {
   },
   components: {
     PrimaryPinkButton,
-    SecondaryButton
+    SecondaryButton,
   },
 
   data() {
     return {
       user: false,
       seen: false,
-    }
+    };
   },
 
   beforeMount() {
     onAuthStateChanged(auth, (user) => {
-      this.user = user
+      this.user = user;
     });
   },
 
@@ -87,10 +98,9 @@ export default {
     signOut() {
       signOut(auth).then(() => {
         this.$router.push("/");
-      })
+      });
     },
-  }
-  
+  },
 };
 </script>
 
@@ -126,7 +136,8 @@ export default {
   z-index: 100;
   flex-wrap: wrap;
   align-self: center;
-  box-shadow: 0 .25rem .375rem -.0625rem hsla(0,0%,8%,.12),0 .125rem .25rem -.0625rem hsla(0,0%,8%,.07)!important;
+  box-shadow: 0 0.25rem 0.375rem -0.0625rem hsla(0, 0%, 8%, 0.12),
+    0 0.125rem 0.25rem -0.0625rem hsla(0, 0%, 8%, 0.07) !important;
   margin-top: var(--dl-space-space-unit);
   align-items: center;
   padding-top: var(--dl-space-space-halfunit);
@@ -137,7 +148,7 @@ export default {
   padding-bottom: var(--dl-space-space-halfunit);
   backdrop-filter: saturate(200%) blur(30px);
   justify-content: space-between;
-  background-color: hsla(0,0%,100%,.8)!important;
+  background-color: hsla(0, 0%, 100%, 0.8) !important;
 }
 .header-link {
   color: var(--dl-color-secondary-700);
@@ -269,12 +280,12 @@ export default {
   margin-top: auto;
   flex-direction: column;
 }
-@media(max-width: 991px) {
+@media (max-width: 991px) {
   .header-nav {
     max-width: 960px;
   }
 }
-@media(max-width: 767px) {
+@media (max-width: 767px) {
   .header-menu {
     display: none;
   }
@@ -287,7 +298,7 @@ export default {
     align-self: center;
   }
 }
-@media(max-width: 479px) {
+@media (max-width: 479px) {
   .header-nav {
     height: 100%;
     flex-wrap: wrap;

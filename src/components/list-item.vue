@@ -1,6 +1,6 @@
 <template>
   <div class="list-item-container" v-bind:class="rootClassName">
-    <h5 class="list-item-text headingThree">{{ title }}</h5>
+    <h5 class="list-item-text headingThree">{{ space }}</h5>
     <div class="list-item-container1">
       <div class="list-item-container2">
         <span class="list-item-text1">{{ checkin }}</span>
@@ -16,6 +16,10 @@
 export default {
   name: 'ListItem',
   props: {
+    price: {
+      type: String,
+      default: '30',
+    },
     office: {
       type: String,
       default: 'Hot Desk',
@@ -29,7 +33,7 @@ export default {
       default: '12 June',
     },
     rootClassName: String,
-    title: {
+    space: {
       type: String,
       default: '1. Listen to Social Conversations',
     },
