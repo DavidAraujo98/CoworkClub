@@ -1,5 +1,6 @@
 <template>
   <div class="spaces-container">
+    <loader :loading="loading"></loader>
     <app-header></app-header>
     <app-toolbar
       rootClassName="toolbar-root-class-name"
@@ -47,6 +48,7 @@ import AppFooter from "../components/footer";
 import { collection, getDocs } from "firebase/firestore";
 import { ref } from "firebase/storage";
 import { db, st } from "../fb";
+import Loader from "../components/loader.vue";
 
 export default {
   name: "Spaces",
@@ -55,10 +57,12 @@ export default {
     AppToolbar,
     SpaceCard,
     AppFooter,
-  },
+    Loader
+},
 
   data() {
     return {
+      loading: true,
       space_list: [],
       search: "",
       min_price: 0,
@@ -95,12 +99,12 @@ export default {
     },
   },
 
-  beforeMount() {
+  created() {
     this.search = new URLSearchParams(window.location.search).get("search");
-    const image = ref(st, 'spaces-thumbnails');
+    const image = ref(st, "spaces-thumbnails");
     getDocs(collection(db, "spaces")).then(
       (querySnapshot) => (this.space_list = querySnapshot.docs)
-    );
+    ).then(() => { this.loading = false });
   },
 
   metaInfo: {

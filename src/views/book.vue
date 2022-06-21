@@ -41,7 +41,7 @@
               </div>
               <div class="book-container08">
                 <h3 class="book-text11"><span>Office type</span></h3>
-                <span>{{ office }}</span>
+                <span>{{ officetype }}</span>
               </div>
             </div>
           </div>
@@ -98,8 +98,7 @@
 import AppHeader from "../components/header";
 import PrimaryPinkButton from "../components/primary-pink-button";
 import moment from "moment";
-import { onAuthStateChanged } from "firebase/auth";
-import { doc, getDoc, collection, addDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, collection, addDoc} from "firebase/firestore";
 import { db, auth } from "../fb";
 require("../../public/moment-precise-range");
 
@@ -117,11 +116,9 @@ export default {
       checkin: "",
       checkout: "",
       officetype: "",
-      office: "",
       teamsize: "",
       price: "",
       priceTabe: "",
-      user: "",
     };
   },
 
@@ -142,30 +139,21 @@ export default {
         checkout: this.checkout,
         office_type: this.officetype,
         price: this.price,
-        space_id: this.id,
-        user_email: this.user.email,
-      }).then((ref) => {
-        setDoc(
-          doc(db, "users", this.user.email),
-          {
-            booking: doc(db, "book", ref.id),
-          },
-          { merge: true }
-        ).then(() => {
-          this.$router.push("/profile")
-        });
+        space_id: doc(db, "spaces", this.id),
+        user_id: doc(db, "users", auth.currentUser.uid),
+      }).then(() => {
+        this.$router.push("/profile");
       });
     },
   },
 
-  beforeMount() {
+  created() {
     const x = new URLSearchParams(window.location.search);
     this.id = window.location.pathname.split("/").pop();
     this.name = x.get("name");
     this.checkin = x.get("checkin");
     this.checkout = x.get("checkout");
     this.officetype = x.get("officetype");
-    this.office = x.get("office");
     this.teamsize = x.get("teamsize");
     getDoc(doc(db, "spaces", this.id)).then((querySnapshot) => {
       var data = querySnapshot.data();
@@ -173,9 +161,6 @@ export default {
         (x) => x.id == this.officetype
       )[0].list;
       this.price = this.calculatePrice();
-    });
-    onAuthStateChanged(auth, (user) => {
-      this.user = user;
     });
   },
 

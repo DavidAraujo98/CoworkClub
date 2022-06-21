@@ -1,6 +1,7 @@
 <template>
   <div class="sign-up-container">
     <app-header></app-header>
+    <loading :loading="loading"></loading>
     <div class="sign-up-hero">
       <div class="sign-up-container1">
         <div class="sign-up-card">
@@ -73,7 +74,7 @@
 import PrimaryBlueButton from "../components/primary-blue-button";
 import AppFooter from "../components/footer";
 import AppHeader from "../components/header";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { db, auth } from "../fb.js";
 import { doc, setDoc } from "firebase/firestore";
 
@@ -87,6 +88,7 @@ export default {
 
   data() {
     return {
+      loading: false,
       email: "",
       password: "",
       username: "",
@@ -95,19 +97,26 @@ export default {
 
   methods: {
     register() {
+      this.loading = true;
       createUserWithEmailAndPassword(auth, this.email, this.password)
         .then((userCredential) => {
-          this.$user = userCredential.user;
-          setDoc(doc(db, "users", this.email), {
-            username: this.username,
+          updateProfile(userCredential.user, {
+            displayName: this.username,
+          }).then(() => {
+            this.loading = false;
+          });
+          setDoc(doc(db, "users", userCredential.user.uid), {
+            join_date: Date.now(),
           }).then(() => {
             this.$router.push("/");
+            this.loading = false;
           });
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           alert(errorMessage);
+          this.loading = false;
         });
     },
   },

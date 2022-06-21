@@ -24,7 +24,7 @@
           />
           <router-link :to="{ path: '/spaces', query: { search: search }}" class="home-navlink">
             <primary-pink-button
-              button="Search"
+              text="Search"
               rootClassName="primary-pink-button-root-class-name"
               class="home-component1"
             ></primary-pink-button>

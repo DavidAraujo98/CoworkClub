@@ -1,32 +1,23 @@
 <template>
   <div class="profile-container">
     <app-header></app-header>
+    <loader :loading="loading"></loader>
     <div class="profile-hero">
       <div class="profile-head">
-        <h1 class="profile-text">User name</h1>
+        <h1 class="profile-text">{{ username }}</h1>
         <div class="profile-container01">
           <div class="profile-container02">
-            <div class="profile-container03">
-              <p class="profile-text01">
-                <span>Job title</span>
-              </p>
-              <p class="profile-text04"><span>Hot Desk</span></p>
-            </div>
-            <div class="profile-container04">
-              <p class="profile-text06"><span>Preferred office:</span></p>
-              <p class="profile-text08"><span>Hot Desk</span></p>
-            </div>
-            <div class="profile-container05">
-              <p class="profile-text10"><span>Favorite space:</span></p>
-              <p class="profile-text12"><span>AveiroHub</span></p>
-            </div>
             <div class="profile-container06">
               <p class="profile-text14"><span>Last visited space:</span></p>
-              <p class="profile-text16"><span>Ocupa Aveiro</span></p>
+              <p class="profile-text16">
+                <span>{{ lstsp }}</span>
+              </p>
             </div>
             <div class="profile-container07">
               <p class="profile-text18"><span>Visited spaces:</span></p>
-              <p class="profile-text20"><span>5</span></p>
+              <p class="profile-text20">
+                <span>{{ vstsp }}</span>
+              </p>
             </div>
           </div>
         </div>
@@ -37,9 +28,13 @@
             <div class="profile-title">
               <h2 class="profile-text22">
                 <span>Personal details</span>
-                <span></span>
               </h2>
-              <svg viewBox="0 0 1024 1024" class="profile-icon">
+              <svg
+                viewBox="0 0 1024 1024"
+                class="profile-icon"
+                @click="lock = !lock"
+                v-if="lock"
+              >
                 <path
                   d="M896 293.504l-165.504-165.504c-12.501-12.501-28.928-18.731-45.269-18.731-16.384 0-32.725 6.229-45.227 18.731l-466.731 466.731c-12.501 12.501-23.808 31.019-32 50.688-8.192 19.755-13.269 40.917-13.269 58.581v192h192c17.664 0 38.741-5.077 58.496-13.269 19.755-8.192 38.229-19.499 50.731-32l466.773-466.731c12.501-12.501 18.731-28.928 18.731-45.269 0-16.384-6.229-32.725-18.731-45.227zM246.101 642.603l353.835-353.835 52.565 52.565-353.835 353.835-52.565-52.565zM320 810.667h-64l-42.667-42.667v-64c0-3.285 1.408-13.013 6.741-25.813 0.427-0.853 126.592 125.355 126.592 125.355-13.739 5.717-23.381 7.125-26.667 7.125zM381.397 777.899l-52.565-52.565 353.835-353.835 52.565 52.565-353.835 353.835zM765.397 393.899l-135.339-135.339 55.168-55.168 135.253 135.339-55.083 55.168z"
                 ></path>
@@ -50,16 +45,18 @@
                 <label>Username</label>
                 <input
                   type="text"
-                  placeholder="John Doe"
+                  v-model="username"
                   class="profile-textinput input"
+                  :disabled="lock"
                 />
               </div>
               <div class="profile-container09">
                 <label>Email</label>
                 <input
                   type="text"
-                  placeholder="johndoe@gmail.com"
+                  v-model="email"
                   class="profile-textinput1 input"
+                  :disabled="lock"
                 />
               </div>
               <div class="profile-container10">
@@ -67,20 +64,46 @@
                 <input
                   type="text"
                   placeholder="●●●●●●●●●●●"
+                  v-model="password"
+                  @change="password_c = true"
                   class="profile-textinput2 input"
+                  :disabled="lock"
+                />
+              </div>
+              <div class="profile-container11">
+                <label><span>Job title</span></label>
+                <input
+                  type="text"
+                  v-model="jobtitle"
+                  @change="jobtitle_c = true"
+                  class="profile-textinput3 input"
+                  :disabled="lock"
                 />
               </div>
             </div>
+            <primary-pink-button
+              v-if="!lock"
+              rootClassName="primary-pink-button-root-class-name5"
+              type="button"
+              text="Confirm"
+              @pushed="confirmEdit"
+            ></primary-pink-button>
           </div>
         </form>
       </div>
       <div class="profile-calendar">
         <div class="profile-column1">
-          <h2 class="profile-text28"><span>Bookings</span></h2>
+          <h2 class="profile-text28">Bookings</h2>
           <div class="profile-row1">
             <list-item
+              v-for="item in bookings"
+              :key="item.checkin"
               rootClassName="list-item-root-class-name"
-              title="Aveiro Hub"
+              :space="item.space_id"
+              :office="item.office_type"
+              :checkin="item.checkin"
+              :checkout="item.checkout"
+              :price="item.price"
             ></list-item>
           </div>
         </div>
@@ -94,21 +117,155 @@
 import AppHeader from "../components/header";
 import ListItem from "../components/list-item";
 import AppFooter from "../components/footer";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../fb";
+import Loader from "../components/loader";
+import PrimaryPinkButton from "../components/primary-pink-button";
+
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  getDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
+import { db, auth } from "../fb";
 
 export default {
   name: "Profile",
   props: {},
   components: {
+    PrimaryPinkButton,
     AppHeader,
     ListItem,
     AppFooter,
+    Loader,
+  },
+
+  methods: {
+    confirmEdit() {
+      const user = auth.currentUser;
+      this.lock = !this.lock;
+      if (user != null) {
+        if (this.jobtitle_c && this.jobtitle != "") {
+          this.loading = true;
+          var userref = doc(db, "users", user.uid);
+          updateDoc(userref, {
+            jobtitle: this.jobtitle,
+          }).then(() => {
+            this.loading = false;
+          });
+        }
+        if (user.displayName != this.username) {
+          this.loading = true;
+          updateProfile(user, {
+            displayName: this.username,
+          }).then(() => {
+            this.loading = false;
+          });
+        }
+        if (user.email != this.email) {
+          this.loading = true;
+          updateEmail(user, this.email)
+            .then(() => {
+              this.loading = false;
+            })
+            .catch((error) => {
+              if (error.code == "auth/requires-recent-login")
+                alert(
+                  "This action requires a recent login, please login again"
+                );
+              this.$router.push("/signin");
+            });
+        }
+        if (this.password_c && this.password != "") {
+          this.loading = true;
+          updatePassword(user, this.password).then(() => {
+            this.loading = false;
+          });
+        }
+      }
+    },
+  },
+
+  data() {
+    return {
+      loading: true,
+      lock: true,
+      bookings: [],
+      username: "",
+      jobtitle: "",
+      jobtitle_c: false,
+      prefoff: "",
+      favsp: "",
+      lstsp: "",
+      email: "",
+      vstsp: 0,
+      password: "",
+      password_c: false,
+    };
+  },
+
+  beforeMount() {
+    const user = auth.currentUser;
+    this.username = user.displayName;
+    this.email = user.email;
+    var userref = doc(db, "users", user.uid);
+    getDoc(userref)
+      .then((querySnapshot) => {
+        var data = querySnapshot.data();
+        this.jobtitle = data.jobtitle;
+        this.prefoff = data.prefoff;
+        this.vstsp = data.vstsp;
+        const q = query(
+          collection(db, "book"),
+          where("user_id", "==", userref)
+        );
+        getDocs(q).then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            getDoc(doc.data().space_id).then((x) => {
+              var y = doc.data();
+              y.space_id = x.data().name;
+              this.bookings.push(y);
+            });
+          });
+        });
+        if (data.favsp) {
+          getDoc(data.favsp).then((querySnapshot) => {
+            var sp = querySnapshot.data();
+            this.favsp = sp.name;
+          });
+        }
+        if (data.lstsp) {
+          getDoc(data.lstsp).then((querySnapshot) => {
+            var sp = querySnapshot.data();
+            this.lstsp = sp.name;
+          });
+        }
+      })
+      .then(() => {
+        this.loading = false;
+      });
   },
 };
 </script>
 
 <style scoped>
+.profile-container11 {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: var(--dl-space-space-unit);
+  flex-direction: column;
+}
+.profile-textinput3 {
+  width: auto;
+  min-width: 270px;
+  box-shadow: 5px 5px 10px 0px #d4d4d4;
+  border-color: var(--dl-color-gray-800);
+  border-width: 1px;
+  border-radius: var(--dl-radius-radius-radius40);
+}
 .profile-container {
   width: 100%;
   display: flex;
@@ -159,72 +316,6 @@ export default {
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-around;
-}
-.profile-container03 {
-  display: flex;
-  box-shadow: 5px 5px 10px 0px #d4d4d4;
-  margin-top: var(--dl-space-space-halfunit);
-  align-items: center;
-  margin-left: var(--dl-space-space-unitandahalfunit);
-  padding-top: var(--dl-space-space-halfunit);
-  margin-right: var(--dl-space-space-unitandahalfunit);
-  padding-left: var(--dl-space-space-unit);
-  border-radius: var(--dl-radius-radius-radius40);
-  margin-bottom: var(--dl-space-space-halfunit);
-  padding-right: var(--dl-space-space-unit);
-  padding-bottom: var(--dl-space-space-halfunit);
-  justify-content: flex-start;
-}
-.profile-text01 {
-  color: var(--dl-color-secondary-200);
-  margin-right: var(--dl-space-space-halfunit);
-}
-.profile-text04 {
-  color: var(--dl-color-secondary-600);
-}
-.profile-container04 {
-  display: flex;
-  box-shadow: 5px 5px 10px 0px #d4d4d4;
-  margin-top: var(--dl-space-space-halfunit);
-  align-items: center;
-  margin-left: var(--dl-space-space-unitandahalfunit);
-  padding-top: var(--dl-space-space-halfunit);
-  margin-right: var(--dl-space-space-unitandahalfunit);
-  padding-left: var(--dl-space-space-unit);
-  border-radius: var(--dl-radius-radius-radius40);
-  margin-bottom: var(--dl-space-space-halfunit);
-  padding-right: var(--dl-space-space-unit);
-  padding-bottom: var(--dl-space-space-halfunit);
-  justify-content: flex-start;
-}
-.profile-text06 {
-  color: var(--dl-color-secondary-200);
-  margin-right: var(--dl-space-space-halfunit);
-}
-.profile-text08 {
-  color: var(--dl-color-secondary-600);
-}
-.profile-container05 {
-  display: flex;
-  box-shadow: 5px 5px 10px 0px #d4d4d4;
-  margin-top: var(--dl-space-space-halfunit);
-  align-items: center;
-  margin-left: var(--dl-space-space-unitandahalfunit);
-  padding-top: var(--dl-space-space-halfunit);
-  margin-right: var(--dl-space-space-unitandahalfunit);
-  padding-left: var(--dl-space-space-unit);
-  border-radius: var(--dl-radius-radius-radius40);
-  margin-bottom: var(--dl-space-space-halfunit);
-  padding-right: var(--dl-space-space-unit);
-  padding-bottom: var(--dl-space-space-halfunit);
-  justify-content: flex-start;
-}
-.profile-text10 {
-  color: var(--dl-color-secondary-200);
-  margin-right: var(--dl-space-space-halfunit);
-}
-.profile-text12 {
-  color: var(--dl-color-secondary-600);
 }
 .profile-container06 {
   display: flex;
@@ -315,7 +406,7 @@ export default {
   flex-wrap: wrap;
   align-items: flex-start;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 .profile-container08 {
   display: flex;
@@ -324,7 +415,7 @@ export default {
   flex-direction: column;
 }
 .profile-textinput {
-  width: 329px;
+  width: 270px;
   box-shadow: 5px 5px 10px 0px #d4d4d4;
   border-color: var(--dl-color-gray-800);
   border-width: 1px;
@@ -337,7 +428,7 @@ export default {
   flex-direction: column;
 }
 .profile-textinput1 {
-  width: 329px;
+  width: 270px;
   box-shadow: 5px 5px 10px 0px #d4d4d4;
   border-color: var(--dl-color-gray-800);
   border-width: 1px;
@@ -350,7 +441,7 @@ export default {
   flex-direction: column;
 }
 .profile-textinput2 {
-  width: 329px;
+  width: 270px;
   box-shadow: 5px 5px 10px 0px #d4d4d4;
   border-color: var(--dl-color-gray-800);
   border-width: 1px;
@@ -389,15 +480,6 @@ export default {
   .profile-hero {
     flex-direction: column;
   }
-  .profile-container03 {
-    margin: var(--dl-space-space-halfunit);
-  }
-  .profile-container04 {
-    margin: var(--dl-space-space-halfunit);
-  }
-  .profile-container05 {
-    margin: var(--dl-space-space-halfunit);
-  }
   .profile-container06 {
     margin: var(--dl-space-space-halfunit);
   }
@@ -420,15 +502,6 @@ export default {
   }
   .profile-row {
     justify-content: center;
-  }
-  .profile-textinput {
-    width: 404px;
-  }
-  .profile-textinput1 {
-    width: 404px;
-  }
-  .profile-textinput2 {
-    width: 404px;
   }
   .profile-text28 {
     margin-bottom: var(--dl-space-space-halfunit);

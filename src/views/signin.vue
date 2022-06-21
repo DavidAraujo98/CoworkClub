@@ -1,6 +1,7 @@
 <template>
   <div class="sign-in-container">
     <app-header></app-header>
+    <loader :loading="loading"></loader>
     <div class="sign-in-hero">
       <div class="sign-in-container1">
         <div class="sign-in-card">
@@ -63,6 +64,7 @@ import AppFooter from "../components/footer";
 import AppHeader from "../components/header";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../fb.js";
+import Loader from "../components/loader.vue";
 
 export default {
   name: "SignIn",
@@ -70,10 +72,12 @@ export default {
     PrimaryBlueButton,
     AppFooter,
     AppHeader,
+    Loader,
   },
 
   data() {
     return {
+      loading: false,
       email: "",
       password: "",
     };
@@ -81,16 +85,18 @@ export default {
 
   methods: {
     sign() {
+      this.loading = true;
       signInWithEmailAndPassword(auth, this.email, this.password)
         .then((userCredential) => {
-          this.$user = userCredential.user
+          this.$user = userCredential.user;
           this.$router.push("/");
-          this.$
+          this.loading = false;
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           alert(errorMessage);
+          this.loading = false;
         });
     },
   },
