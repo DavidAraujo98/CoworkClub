@@ -57,8 +57,8 @@ export default {
     AppToolbar,
     SpaceCard,
     AppFooter,
-    Loader
-},
+    Loader,
+  },
 
   data() {
     return {
@@ -68,10 +68,10 @@ export default {
       min_price: 0,
       max_price: 9999999,
       parking: false,
-      amenities: null,
+      amenities: "",
       min_hours: "00:00",
       max_hours: "23:59",
-      type: null,
+      type: "",
     };
   },
 
@@ -102,9 +102,11 @@ export default {
   created() {
     this.search = new URLSearchParams(window.location.search).get("search");
     const image = ref(st, "spaces-thumbnails");
-    getDocs(collection(db, "spaces")).then(
-      (querySnapshot) => (this.space_list = querySnapshot.docs)
-    ).then(() => { this.loading = false });
+    getDocs(collection(db, "spaces"))
+      .then((querySnapshot) => (this.space_list = querySnapshot.docs))
+      .then(() => {
+        this.loading = false;
+      });
   },
 
   metaInfo: {

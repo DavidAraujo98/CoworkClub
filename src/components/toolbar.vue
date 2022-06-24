@@ -3,10 +3,10 @@
     <div class="toolbar-header">
       <div class="toolbar-container1">
         <h4 class="toolbar-text">{{ text1 }}</h4>
-        <input type="number" placeholder="Min" class="toolbar-textinput input" v-model="min_price" min="0"
+        <input id="minprice" type="number" placeholder="Min" class="toolbar-textinput input" v-model="min_price" min="0"
           @input="() => this.$emit('minprice', min_price)" />
         <label class="toolbar-label">{{ text }}</label>
-        <input type="number" placeholder="Max" class="toolbar-textinput1 input" min="0" v-model="max_price"
+        <input id="maxprice" type="number" placeholder="Max" class="toolbar-textinput1 input" min="0" v-model="max_price"
           @input="() => this.$emit('maxprice', max_price)" />
       </div>
       <div class="toolbar-container2">

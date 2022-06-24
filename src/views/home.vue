@@ -22,8 +22,12 @@
             class="home-textinput input"
             v-model="search"
           />
-          <router-link :to="{ path: '/spaces', query: { search: search }}" class="home-navlink">
+          <router-link
+            :to="{ path: '/spaces', query: { search: search } }"
+            class="home-navlink"
+          >
             <primary-pink-button
+              id="searchbtn"
               text="Search"
               rootClassName="primary-pink-button-root-class-name"
               class="home-component1"

@@ -12,10 +12,7 @@
       <span class="space-card-text2">{{ description }}</span>
       <div class="space-card-container4">
         <div class="space-card-container5">
-          <router-link
-            :to="`spaces/${id}`"
-            class="space-card-navlink"
-          >
+          <router-link :id="id" :to="`spaces/${id}`" class="space-card-navlink">
             See more
           </router-link>
         </div>
