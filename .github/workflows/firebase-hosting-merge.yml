@@ -12,11 +12,6 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v2
-            - name: run server test
-              timeout-minutes: 2
-              run: npm ci && npm run serve
-            - name: Cypress run
-              uses: cypress-io/github-action@v4
             - run: npm ci && npm run build
             - uses: FirebaseExtended/action-hosting-deploy@v0
               with:
