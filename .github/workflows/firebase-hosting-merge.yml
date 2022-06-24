@@ -7,7 +7,7 @@ name: Deploy to Firebase Hosting on merge
         branches:
             - production-firebase
 jobs:
-    seve_for_test:
+    test_build_and_deploy:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
@@ -15,11 +15,6 @@ jobs:
             - name: run server test
               timeout-minutes: 2
               run: npm ci && npm run serve
-    test_build_and_deploy:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout
-              uses: actions/checkout@v2
             - name: Cypress run
               uses: cypress-io/github-action@v4
             - run: npm ci && npm run build
