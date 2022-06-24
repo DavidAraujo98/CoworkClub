@@ -12,6 +12,8 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v2
+            - timeout-minutes: 2
+            - run: npm run serve
             - name: Cypress run
               uses: cypress-io/github-action@v4
             - run: npm ci && npm run build
