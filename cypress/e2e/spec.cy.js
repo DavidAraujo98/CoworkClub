@@ -4,7 +4,7 @@ Cypress.on("uncaught:exception", (err, runnable) => {
 
 describe("visit website", () => {
     it("visit", () => {
-        cy.visit("localhost:8080");
+        cy.visit("localhost:3000");
     });
 
     it("search", () => {
